@@ -46,4 +46,4 @@ Como o jogo utiliza os sensores de orientação do dispositivo (`DeviceOrientati
 1. Clone este repositório ou baixe o arquivo `index.html`:
    ```bash
    
-   [https://github.com/seu-usuario/browser-guess-ptbr.git]([https://github.com/seu-usuario/browser-guess-ptbr.git])
+   Jogue agora mesmo acessando: [Browser Guess PT-BR](https://tmpfernando.github.io/BrowserGuessPT-BR/)
