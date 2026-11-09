@@ -42,8 +42,5 @@
 ## 📦 Como Instalar e Rodar Localmente
 
 Como o jogo utiliza os sensores de orientação do dispositivo (`DeviceOrientationEvent`), os navegadores modernos exigem um ambiente seguro (**HTTPS**) para liberar o acesso ao giroscópio no celular. A forma mais fácil de testar é hospedando gratuitamente no **GitHub Pages**:
-
-1. Clone este repositório ou baixe o arquivo `index.html`:
-   ```bash
    
-   Jogue agora mesmo acessando: [Browser Guess PT-BR](https://tmpfernando.github.io/BrowserGuessPT-BR/)
+Jogue agora mesmo acessando: [Browser Guess PT-BR](https://tmpfernando.github.io/BrowserGuessPT-BR/)
