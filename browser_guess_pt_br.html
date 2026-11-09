@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#ffa751">
+<title>Browser Guess PT-BR</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b1f5e;--pink:#ff4d8d;--sun:#ffc933;--teal:#00c2a8;--violet:#7a4dff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:#ffa751;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.hidden{display:none!important}
+button{font:inherit;cursor:pointer}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;
+ padding:max(8px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.bg-sun{background:linear-gradient(160deg,#ffe259 0%,#ffa751 45%,#ff6a88 100%)}
+.card{background:#fff;border-radius:16px;box-shadow:0 4px 0 rgba(59,31,94,.15)}
+.btn{border:0;border-radius:16px;color:#fff;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.22);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
+.play{width:100%;padding:12px;font-size:1.15rem;background:linear-gradient(90deg,#ff4d8d,#ff7a45);display:flex;align-items:center;justify-content:center;gap:10px;animation:breathe 2s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.03)}}
+.logo{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#fff;font-size:1.5rem;color:var(--pink);box-shadow:0 3px 0 rgba(59,31,94,.2);animation:wig 3s ease-in-out infinite}
+@keyframes wig{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg) scale(1.08)}}
+h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35);letter-spacing:.5px}
+.sub{margin:2px 0 0;font-size:.78rem;color:var(--ink);font-weight:500}
+.lbl{margin:0 0 4px;font-size:.75rem;font-weight:700}
+#fs-btn{position:fixed;z-index:50;top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));width:34px;height:34px;border-radius:50%;border:0;background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(59,31,94,.2)}
+.in-game #fs-btn{display:none}
+.bub{position:absolute;bottom:-12%;z-index:0;pointer-events:none;opacity:.4;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-120vh) rotate(40deg)}}
+
+/* Setup */
+.setup,.result{display:flex;flex-direction:column;flex:1;min-height:0;gap:8px;justify-content:space-between;position:relative;z-index:1}
+.hero{text-align:center;padding-top:2px}
+.opts{display:flex;justify-content:center;gap:6px;margin-top:6px}
+.opt{border:2px solid rgba(59,31,94,.25);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:.7rem;font-weight:600;opacity:.65}
+.opt.on{background:#fff;border-color:var(--violet);opacity:1}
+.pick{flex:1;min-height:0;display:flex;flex-direction:column}
+.themes-wrapper{flex:1;min-height:0;overflow-y:auto;padding-right:2px}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tile{display:flex;align-items:center;gap:6px;padding:6px 8px;border:2px solid transparent;text-align:left;color:var(--ink);transition:transform .1s}
+.tile:active{transform:scale(.96)}
+.tile.sel{border-color:var(--pink);background:#fff4c2;box-shadow:0 3px 0 rgba(255,77,141,.3);animation:selpop .3s}
+@keyframes selpop{50%{transform:scale(1.07)}}
+.ico{flex:none;width:28px;height:28px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:.8rem}
+.tile b{display:block;font-size:.75rem;font-weight:600;line-height:1.1}
+.tile small{font-size:.62rem;opacity:.65}
+.tile div:last-child{min-width:0}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.time-btn{padding:7px 0;border:2px solid transparent;border-radius:12px;background:#fff;font-weight:700;font-size:.8rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
+.time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
+
+/* Contagem */
+#countdown-screen{align-items:center;justify-content:center;text-align:center;z-index:40}
+#countdown-screen>*{position:relative;z-index:1}
+#countdown-number{font-size:min(34vw,34vh);font-weight:700;line-height:1;color:#fff;text-shadow:0 8px 0 rgba(59,31,94,.3);animation:pop .9s ease-out infinite}
+@keyframes pop{0%{transform:scale(.4) rotate(-8deg)}40%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+.hint{margin-top:14px;padding:8px 16px;border-radius:999px;background:#fff;font-size:.85rem;font-weight:500;max-width:92%}
+
+/* Jogo */
+#game-screen{z-index:40;display:grid;gap:10px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
+.bar{grid-area:bar;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:700;display:flex;align-items:center;gap:6px}
+.pill.urgent{background:#ff3b5c;color:#fff;animation:pulse .6s infinite}
+.pill.bump{animation:bump .35s}
+@keyframes pulse{50%{transform:scale(1.1)}}
+@keyframes bump{40%{transform:scale(1.35) rotate(-6deg)}}
+.x{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink)}
+.wordbox{grid-area:word;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0;cursor:pointer}
+.tag{background:rgba(255,255,255,.9);color:var(--ink);padding:3px 14px;border-radius:999px;font-weight:700;font-size:.75rem;margin-bottom:10px}
+#word-display{margin:0;max-width:100%;font-size:clamp(2.2rem,11vw,4.2rem);line-height:1.1;font-weight:700;text-shadow:0 4px 0 rgba(59,31,94,.3);overflow-wrap:anywhere}
+#word-display.in-ok{animation:wOk .35s cubic-bezier(.3,1.6,.5,1)}
+#word-display.in-skip{animation:wSkip .3s ease-out}
+@keyframes wOk{0%{transform:translateY(-50px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+@keyframes wSkip{0%{transform:translateY(50px) rotate(-4deg);opacity:0}100%{transform:none;opacity:1}}
+.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px;font-size:.85rem}
+.act i{font-size:1.4rem}
+.skip{grid-area:skip;background:#ff7a45}.ok{grid-area:ok;background:#12b886}
+.l-only{display:none}
+#flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .15s}
+#fb{position:absolute;left:50%;top:42%;z-index:5;pointer-events:none;opacity:0;font-size:clamp(1.8rem,9vw,3.4rem);font-weight:700;white-space:nowrap;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+#fb.show{animation:fbpop .7s ease-out}
+@keyframes fbpop{0%{opacity:0;transform:translate(-50%,0) scale(.4)}25%{opacity:1;transform:translate(-50%,-10px) scale(1.15)}100%{opacity:0;transform:translate(-50%,-70px) scale(1)}}
+.part{position:fixed;z-index:6;pointer-events:none;animation:burst .75s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.4);opacity:0}}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+/* Resultado */
+.result{grid-template-rows:auto minmax(0,1fr) auto}
+.top{text-align:center;padding-top:4px}
+.listbox{min-height:0;display:flex;flex-direction:column;flex:1}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.stat{padding:8px}.stat small{font-size:.7rem;font-weight:600;opacity:.7}
+.stat b{display:block;font-size:2.2rem;line-height:1.1}
+#word-history{flex:1;min-height:0;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;background:#f6f1ff;font-size:.85rem;font-weight:500;animation:rowin .3s both}
+@keyframes rowin{from{opacity:0;transform:translateX(-14px)}}
+.chip{flex:none;font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:999px;color:#fff}
+.chip.ok{background:#12b886}.chip.no{background:#ff7a45}
+.confetti{position:fixed;top:-6vh;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
+
+/* Celular deitado */
+@media (orientation:landscape) and (max-height:560px){
+ .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:10px}
+ .hero{grid-area:hero;padding-top:0}.pick{grid-area:themes}.timebox{grid-area:time}.playbox{grid-area:play;align-self:end}
+ .hero .logo{width:38px;height:38px;font-size:1.2rem}
+ h1{font-size:1.3rem}.sub{display:none}
+ .themes{grid-template-columns:repeat(2,1fr);gap:4px}
+ .tile{padding:4px 6px}.ico{width:24px;height:24px;font-size:.7rem}
+ .play{padding:8px;font-size:1rem}
+ #game-screen{grid-template-columns:clamp(96px,17vw,150px) 1fr clamp(96px,17vw,150px);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"skip bar ok" "skip word ok"}
+ #word-display{font-size:clamp(2rem,16vh,4.2rem)}
+ .p-only{display:none}.l-only{display:inline}
+ .result{display:grid;grid-template-columns:minmax(190px,36%) 1fr;grid-template-areas:"top list" "btn list";grid-template-rows:1fr auto;column-gap:14px}
+ .top{grid-area:top}.listbox{grid-area:list}.btnbox{grid-area:btn}
+ .top .logo{width:38px;height:38px;font-size:1rem}
+ .top h2{font-size:1.3rem!important}.top .sub{display:none}
+ .stats{margin-top:6px}.stat b{font-size:1.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<button id="fs-btn" onclick="toggleFullScreen()" aria-label="Tela cheia"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
+
+<!-- 1. MENU -->
+<div id="setup-screen" class="screen bg-sun">
+ <div class="setup">
+  <div class="hero">
+   <div class="logo"><i class="fa-solid fa-face-grin-stars"></i></div>
+   <h1>Browser Guess PT-BR</h1>
+   <p class="sub">Celular na testa, amigos dando dicas!</p>
+   <div class="opts">
+    <button id="opt-sound" class="opt" onclick="toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Sons</button>
+    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Inclinar</button>
+   </div>
+  </div>
+  <div class="pick">
+   <p class="lbl"><i class="fa-solid fa-icons"></i> Escolha o tema</p>
+   <div class="themes-wrapper"><div id="themes-container" class="themes"></div></div>
+  </div>
+  <div class="timebox">
+   <p class="lbl"><i class="fa-solid fa-stopwatch"></i> Tempo de jogo</p>
+   <div class="times">
+    <button class="time-btn" data-time="30" onclick="setTime(30)">30s</button>
+    <button class="time-btn" data-time="60" onclick="setTime(60)">1 min</button>
+    <button class="time-btn" data-time="90" onclick="setTime(90)">1m30</button>
+    <button class="time-btn" data-time="120" onclick="setTime(120)">2 min</button>
+   </div>
+  </div>
+  <div class="playbox"><button class="btn play" onclick="startCountdown()"><i class="fa-solid fa-play"></i> Jogar agora</button></div>
+ </div>
+</div>
+
+<!-- 2. CONTAGEM -->
+<div id="countdown-screen" class="screen bg-sun hidden">
+ <p style="font-weight:700;margin:0 0 4px">Prepare o celular na testa!</p>
+ <div id="countdown-number">3</div>
+ <div class="hint" id="hint"></div>
+</div>
+
+<!-- 3. JOGO -->
+<div id="game-screen" class="screen hidden">
+ <div id="flash"></div>
+ <div id="fb"></div>
+ <div class="bar">
+  <div id="timer-box" class="pill"><i class="fa-solid fa-clock"></i><span id="timer-display">60</span>s</div>
+  <div id="score-box" class="pill"><i class="fa-solid fa-star" style="color:#ffb400"></i><span id="live-score">0</span></div>
+  <button class="x" onclick="endGame()" aria-label="Encerrar rodada"><i class="fa-solid fa-xmark"></i></button>
+ </div>
+ <div class="wordbox" onclick="handleCorrect()">
+  <span id="current-theme-label" class="tag">Tema</span>
+  <h2 id="word-display">...</h2>
+ </div>
+ <button class="btn act skip" onclick="event.stopPropagation();handleSkip()">
+  <i class="fa-solid fa-arrow-up p-only"></i><i class="fa-solid fa-arrow-left l-only"></i>Pular
+ </button>
+ <button class="btn act ok" onclick="event.stopPropagation();handleCorrect()">
+  <i class="fa-solid fa-arrow-down p-only"></i><i class="fa-solid fa-arrow-right l-only"></i>Acertou!
+ </button>
+</div>
+
+<!-- 4. RESULTADO -->
+<div id="result-screen" class="screen bg-sun hidden">
+ <div class="result">
+  <div class="top">
+   <div class="logo"><i class="fa-solid fa-trophy"></i></div>
+   <h2 id="res-title" style="margin:4px 0 0;font-size:1.6rem;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35)">Fim de jogo!</h2>
+   <p class="sub" id="res-sub">Que rodada divertida!</p>
+   <div class="stats">
+    <div class="card stat"><small>Acertos</small><b id="res-correct" style="color:#12b886">0</b></div>
+    <div class="card stat"><small>Puladas</small><b id="res-skipped" style="color:#ff7a45">0</b></div>
+   </div>
+  </div>
+  <div class="listbox">
+   <p class="lbl"><i class="fa-solid fa-list-check"></i> Resumo da rodada</p>
+   <div id="word-history" class="card"></div>
+  </div>
+  <div class="btnbox"><button class="btn play" onclick="returnToMenu()"><i class="fa-solid fa-rotate-right"></i> Jogar novamente</button></div>
+ </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+let soundOn=true,tiltOn=true,tiltActive=false,tiltListening=false,tiltArmed=false;
+const tiltSupported='DeviceOrientationEvent' in window;
+function refreshOpts(){
+ $('opt-sound').classList.toggle('on',soundOn);
+ $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Sons`;
+ $('opt-tilt').classList.toggle('on',tiltOn&&tiltSupported);
+}
+function toggleOpt(k){
+ if(k==='sound')soundOn=!soundOn;else tiltOn=!tiltOn;
+ try{localStorage.setItem('gg_sound',soundOn?'1':'0');localStorage.setItem('gg_tilt',tiltOn?'1':'0')}catch(e){}
+ refreshOpts();playSound('click');
+}
+
+let audioCtx=null;
+function initAudio(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
+const SOUNDS={
+ correct:[[660,0,.09,'triangle',.2],[990,.08,.16,'triangle',.2]],
+ skip:[[330,0,.1,'sawtooth',.12,240],[220,.09,.16,'sawtooth',.1,150]],
+ combo:[[523,0,.09,'triangle',.2],[659,.08,.09,'triangle',.2],[784,.16,.09,'triangle',.2],[1047,.24,.25,'triangle',.22]],
+ beep:[[600,0,.1,'sine',.15]],
+ start:[[800,0,.1,'sine',.2],[1200,.1,.28,'sine',.22]],
+ tick:[[900,0,.05,'square',.05]],
+ tick3:[[1300,0,.09,'square',.08]],
+ click:[[520,0,.07,'sine',.1,720]],
+ armed:[[880,0,.06,'sine',.1],[1320,.07,.09,'sine',.1]],
+ buzz:[[180,0,.45,'sawtooth',.14,120]],
+ win:[[523,0,.12,'triangle',.2],[659,.12,.12,'triangle',.2],[784,.24,.12,'triangle',.2],[1047,.36,.14,'triangle',.22],[784,.5,.1,'triangle',.2],[1047,.6,.4,'triangle',.24]],
+ lose:[[392,0,.22,'sine',.15],[330,.22,.22,'sine',.15],[262,.44,.4,'sine',.15]]
+};
+function playSound(type){
+ if(!soundOn)return;
+ try{
+  initAudio();if(!audioCtx)return;
+  const seq=SOUNDS[type];if(!seq)return;
+  const t0=audioCtx.currentTime;
+  seq.forEach(([f,s,d,w,v,f2])=>{
+   const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+   o.type=w;o.connect(g);g.connect(audioCtx.destination);
+   o.frequency.setValueAtTime(f,t0+s);
+   if(f2)o.frequency.linearRampToValueAtTime(f2,t0+s+d);
+   g.gain.setValueAtTime(v,t0+s);
+   g.gain.exponentialRampToValueAtTime(.01,t0+s+d);
+   o.start(t0+s);o.stop(t0+s+d+.02);
+  });
+ }catch(e){}
+}
+function vibrate(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
+
+function toggleFullScreen(){
+ const el=document.documentElement;
+ if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+  const r=el.requestFullscreen||el.webkitRequestFullscreen;
+  if(r){const p=r.call(el);if(p&&p.catch)p.catch(()=>{})}
+ }else{const x=document.exitFullscreen||document.webkitExitFullscreen;if(x)x.call(document)}
+}
+function updateFsIcon(){
+ const on=document.fullscreenElement||document.webkitFullscreenElement;
+ document.getElementById('fs-icon').className=on?'fa-solid fa-compress':'fa-solid fa-expand';
+}
+document.addEventListener('fullscreenchange',updateFsIcon);
+document.addEventListener('webkitfullscreenchange',updateFsIcon);
+let wakeLock=null;
+async function requestWakeLock(){try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}
+function releaseWakeLock(){try{if(wakeLock)wakeLock.release()}catch(e){}wakeLock=null}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&isPlaying)requestWakeLock()});
+
+async function enableTilt(){
+ if(!tiltSupported)return false;
+ try{
+  if(typeof DeviceOrientationEvent.requestPermission==='function'){
+   const r=await DeviceOrientationEvent.requestPermission();
+   if(r!=='granted')return false;
+  }
+  if(!tiltListening){window.addEventListener('deviceorientation',onTilt);tiltListening=true}
+  return true;
+ }catch(e){return false}
+}
+function onTilt(e){
+ if(e.beta==null||e.gamma==null)return;
+ if(!isPlaying||!tiltActive)return;
+ const b=e.beta*Math.PI/180,g=e.gamma*Math.PI/180;
+ const z=Math.cos(g)*Math.cos(b);
+ if(!tiltArmed){
+  if(Math.abs(z)<0.3){tiltArmed=true;playSound('armed')}
+  return;
+ }
+ if(z<-0.55){tiltArmed=false;handleCorrect()}
+ else if(z>0.55){tiltArmed=false;handleSkip()}
+}
+
+const W=s=>s.split('|');
+const themes={
+ animais:{name:"Animais",icon:"fa-dog",c:["#43e97b","#12b886"],words:W("Leão|Elefante|Girafa|Zebra|Macaco|Tigre|Urso-pardo|Lobo|Raposa|Coelho|Canguru|Koala|Panda|Gorila|Hipopótamo|Rinoceronte|Crocodilo|Tartaruga|Jacaré|Serpente|Águia|Falcão|Coruja|Papagaio|Flamingo|Pinguim|Golfinho|Baleia|Tubarão|Polvo|Cavalo|Vaca|Porco|Ovelha|Cabra|Galinha|Pato|Ganso|Peru|Camelo|Lhama|Hiena|Leopardo|Onça-pintada|Tamanduá|Capivara|Tatu|Arara|Tucano|Esquilo|Castor|Foca|Leão-marinho|Morcego|Ouriço|Abelha|Borboleta|Formiga|Aranha|Sapo|Camaleão|Pavão|Urso-polar|Lontra|Preguiça|Peixe-palhaço|Cavalo-marinho|Lula|Chita|Condor|Alce|Rena|Bisonte|Antílope|Hamster|Porquinho-da-índia|Furão|Chinchila|Baleia-azul|Orca|Estrela-do-mar|Caranguejo|Lagosta|Camarão|Água-viva|Arraia|Cachorro|Gato|Burro|Pombo|Beija-flor|Joaninha|Libélula|Escorpião|Jaguatirica|Lobo-guará|Mico-leão-dourado|Boto-cor-de-rosa|Peixe-boi|Sucuri|Piranha|Cobra-coral|Suricato|Lêmure|Orangotango|Chimpanzé|Pantera-negra|Iguana|Dragão-de-komodo|Rã|Cisne|Avestruz|Pelicano|Gaivota|Cegonha|Urubu|João-de-barro|Bem-te-vi|Canário|Mariposa|Grilo|Cigarra|Centopeia|Lesma|Caracol|Minhoca|Narval|Morsa|Ornitorrinco|Wombat|Diabo-da-tasmânia|Tapir|Anta|Vaga-lume|Louva-a-deus|Escaravelho|Gafanhoto|Mosquito|Mosca|Tubarão-martelo|Baleia-jubarte|Peixe-voador|Cavalo-de-pau")},
+ comidas:{name:"Comidas",icon:"fa-burger",c:["#ffb347","#ff6a5e"],words:W("Pizza|Hambúrguer|Sushi|Lasanha|Feijoada|Churrasco|Coxinha|Pastel|Brigadeiro|Pão de Queijo|Macarrão|Hot Dog|Batata Frita|Nuggets|Strogonoff|Salada|Taco|Burrito|Paella|Ramen|Temaki|Kibe|Esfiha|Picanha|Farofa|Moqueca|Acarajé|Pamonha|Curau|Bolo de Chocolate|Sorvete|Pudim|Mousse|Torta de Limão|Panqueca|Waffle|Panetone|Rocambole|Empada|Quiche|Ceviche|Nhoque|Risoto|Carpaccio|Bruschetta|Fondue|Croissant|Baguete|Donut|Brownie|Churros|Tapioca|Cuscuz|Açaí|Pipoca|Algodão-doce|Beijinho|Paçoca|Escondidinho|Maçã do Amor|Misto-quente|Tiramisu|Cheesecake|Almôndegas|Falafel|Kebab|Nachos|Guacamole|Quesadilla|Empanada|Polenta|Canja|Caldo Verde|Bobó de Camarão|Vatapá|Galinhada|Baião de Dois|Salpicão|Torresmo|Pão de Alho|Linguiça|Costelinha|Petit Gateau|Trufa|Pavlova|Dim Sum|Yakisoba|Gyoza|Pad Thai|Curry|Goulash|Moussaka|Tabule|Shawarma|Crepe|Macaron|Éclair|Cupcake|Pretzel|Bagel|Panini|Calzone|Pão Francês|Bolinho de Chuva|Quindim|Cocada|Pé de Moleque|Canjica|Tutu de Feijão|Pirão|Sanduíche Natural|Cachorro-quente|Omelete|Ovo Frito|Bife à Parmegiana|Frango Assado|Costela|Maminha|Fraldinha|Pão com Ovo|Mandioca Frita|Polvilho|Sonho|Rabanada|Maria-mole|Bala de Goma|Pirulito|Chiclete|Chocolate|Bombom|Sorvete de Casquinha|Milk-shake|Vitamina|Suco de Laranja|Água de Coco|Caipirinha|Café|Guaraná|Refrigerante|Limonada")},
+ musicas:{name:"Músicas & Bandas",icon:"fa-music",c:["#a18cd1","#7a4dff"],words:W("Rock and Roll|Pop|Samba|Sertanejo|Funk|Pagode|Rap|Hip Hop|Reggae|Eletrônica|Jazz|Blues|Heavy Metal|Forró|Axé|Bossa Nova|MPB|Michael Jackson|Queen|The Beatles|Elvis Presley|Madonna|Bob Marley|Metallica|AC/DC|Guns N' Roses|Nirvana|Chorão (Charlie Brown Jr.)|Raul Seixas|Rita Lee|Caetano Veloso|Gilberto Gil|Ivete Sangalo|Anitta|Marília Mendonça|Gusttavo Lima|Alok|Tim Maia|Djavan|Roberto Carlos|Legião Urbana|Titãs|Skank|Jota Quest|Engenheiros do Hawaii|Capital Inicial|Racionais MC's|Luísa Sonza|Luan Santana|Wesley Safadão|Pabllo Vittar|Ludmilla|Thiaguinho|Zeca Pagodinho|Arlindo Cruz|Michel Teló|Ed Sheeran|Coldplay|Bruno Mars|Shakira|Cazuza|Jorge e Mateus|Henrique e Juliano|Natiruts|Pink Floyd|Led Zeppelin|Black Sabbath|Iron Maiden|Megadeth|Slayer|Pantera|Foo Fighters|Red Hot Chili Peppers|Green Day|Blink-182|The Strokes|Arctic Monkeys|Muse|Radiohead|U2|Bon Jovi|Aerosmith|Scorpions|Pearl Jam|Oasis|The Cure|Depeche Mode|David Bowie|Prince|Elton John|Stevie Wonder|Ray Charles|Frank Sinatra|Whitney Houston|Celine Dion|Mariah Carey|Adele|Taylor Swift|Justin Bieber|Ariana Grande|Dua Lipa|The Weeknd|Billie Eilish|Post Malone|Bad Bunny|Drake|Kendrick Lamar|Jay-Z|Kanye West|Travis Scott|Lady Gaga|Rihanna|Beyoncé|Katy Perry|Britney Spears|Backstreet Boys|NSYNC|Spice Girls|BTS|Blackpink|Abba|Bee Gees|Maroon 5|Imagine Dragons|Linkin Park|System of a Down|Rammstein|Kiss|The Rolling Stones|The Who|Eagles|Fleetwood Mac|Los Hermanos|Detonautas|Charlie Brown Jr.|O Rappa|Pitty|Ney Matogrosso|Maria Bethânia|Elis Regina|Chico Buarque|Jorge Ben Jor|Bezerra da Silva|Dorival Caymmi|Luiz Gonzaga|Paula Fernandes|Maiara e Maraisa|Simone e Simaria|Zé Neto e Cristiano|Matheus e Kauan|Léo Santana|Claudia Leitte|Joelma|Calcinha Preta|Banda Calypso|Mamonas Assassinas|Raimundos|Paralamas do Sucesso|Barão Vermelho|Ira!|Ultraje a Rigor|Biquini Cavadão|Kid Abelha|Cássia Eller")},
+ famosos:{name:"Famosos",icon:"fa-star",c:["#ffd93d","#ff9f1c"],words:W("Neymar|Lionel Messi|Cristiano Ronaldo|Pelé|Ayrton Senna|Silvio Santos|Faustão|Jô Soares|Xuxa|Angélica|Luciano Huck|Rodrigo Faro|Celso Portiolli|Eliana|Casimiro|Gaules|Felipe Neto|Whindersson Nunes|Virginia Fonseca|Carlinhos Maia|Keanu Reeves|Tom Cruise|Brad Pitt|Leonardo DiCaprio|Angelina Jolie|Scarlett Johansson|Will Smith|Dwayne Johnson (The Rock)|Robert Downey Jr.|Chris Hemsworth|Tom Holland|Zendaya|Lady Gaga|Taylor Swift|Justin Bieber|Selena Gomez|Ariana Grande|Billie Eilish|Harry Styles|Beyoncé|Rihanna|Eminem|Snoop Dogg|Barack Obama|Elon Musk|Steve Jobs|Bill Gates|Mark Zuckerberg|Albert Einstein|Isaac Newton|Tom Hanks|Ronaldinho Gaúcho|Gustavo Kuerten|Rebeca Andrade|Fátima Bernardes|Tiago Leifert|Marina Ruy Barbosa|Rodrigo Hilbert|Michael Phelps|Vinícius Júnior|Rodrygo|Kylian Mbappé|Erling Haaland|Kevin De Bruyne|Stephen Curry|LeBron James|Michael Jordan|Kobe Bryant|Lewis Hamilton|Max Verstappen|Charles Leclerc|Fernando Alonso|Zico|Kaká|Cafu|Ronaldo Fenômeno|Romário|Bebeto|Marta|Zagallo|Tite|Ancelotti|Guardiola|Zinedine Zidane|David Beckham|Maradona|Garrincha|Usain Bolt|Simone Biles|Serena Williams|Rafael Nadal|Roger Federer|Novak Djokovic|Tiger Woods|Muhammad Ali|Mike Tyson|Anderson Silva|Gisele Bündchen|Ivete Sangalo|Fernanda Montenegro|Wagner Moura|Lázaro Ramos|Taís Araújo|Rodrigo Santoro|Alice Braga|Sônia Braga|Paulo Gustavo|Tatá Werneck|Fábio Porchat|Danilo Gentili|Marcelo Adnet|Thiago Ventura|Ratinho|Datena|Sílvio Luiz|Galvão Bueno|Cléber Machado|Tadeu Schmidt|Pedro Bial|Ana Maria Braga|Hebe Camargo|Gugu Liberato|Raul Gil|Chacrinha|Roberto Justus|Fausto Silva|Chico Anysio|Renato Aragão|Didi|Mussum|Zacarias|Dedé Santana|Margot Robbie|Ryan Gosling|Emma Watson|Daniel Radcliffe|Johnny Depp|Jim Carrey|Robin Williams|Morgan Freeman|Denzel Washington|Anne Hathaway|Jennifer Lawrence|Jennifer Aniston|Gal Gadot|Ryan Reynolds|Hugh Jackman|Chris Evans|Chris Pratt|Mark Ruffalo|Sandra Bullock|Julia Roberts|Meryl Streep|Marilyn Monroe|Charlie Chaplin|Walt Disney|Steven Spielberg|Quentin Tarantino|Papa Francisco|Rainha Elizabeth|Princesa Diana|Cleópatra|Napoleão|Dom Pedro I|Tiradentes|Santos Dumont|Marie Curie|Leonardo da Vinci|Michelangelo|Pablo Picasso|Van Gogh|Frida Kahlo|Tarsila do Amaral|Machado de Assis|Monteiro Lobato|Maurício de Sousa|Ziraldo")},
+ filmes:{name:"Filmes",icon:"fa-film",c:["#667eea","#764ba2"],words:W("Titanic|Avatar|Vingadores: Ultimato|Star Wars|Harry Potter|Senhor dos Anéis|Jurassic Park|Matrix|Homem-Aranha|Batman|O Poderoso Chefão|Pulp Fiction|Forrest Gump|Clube da Luta|Interestelar|A Origem|Gladiador|Toy Story|O Rei Leão|Frozen|Shrek|Procurando Nemo|Os Incríveis|Divertida Mente|Up: Altas Aventuras|Wall-E|Minions|Moana|Carros|Pantera Negra|Homem de Ferro|Thor|Capitão América|Coringa|Barbie|Oppenheimer|Duna|Velozes e Furiosos|Piratas do Caribe|Indiana Jones|De Volta para o Futuro|Jurassic World|Esqueceram de Mim|Edward Mãos de Tesoura|Crepúsculo|Jogos Vorazes|Percy Jackson|As Branquelas|Todo Mundo em Pânico|A Freira|Invocação do Mal|O Exorcista|Aladdin|A Bela e a Fera|Cinderela|Branca de Neve|Rapunzel|Mulan|Madagascar|Kung Fu Panda|Ratatouille|Monstros S.A.|Encanto|Zootopia|Django Livre|Bastardos Inglórios|Kill Bill|Scarface|Curtindo a Vida Adoidado|Ghost|Dirty Dancing|Grease|Top Gun|Missão Impossível|007|John Wick|300|Troy|Coração Valente|O Resgate do Soldado Ryan|Mad Max|Blade Runner|O Exterminador do Futuro|Alien|Predador|Os Smurfs|A Era do Gelo|Hotel Transilvânia|Meu Malvado Favorito|Sing|Tubarão|E.T.|Os Goonies|Gremlins|Os Caça-Fantasmas|King Kong|Godzilla|Transformers|X-Men|Quarteto Fantástico|Deadpool|Guardiões da Galáxia|Doutor Estranho|Aquaman|Mulher-Maravilha|Superman|Liga da Justiça|Esquadrão Suicida|Cisne Negro|A Chegada|Parasita|Tropa de Elite|Cidade de Deus|Central do Brasil|Dona Flor e Seus Dois Maridos|O Auto da Compadecida|Se Eu Fosse Você|Minha Mãe É uma Peça|De Pernas pro Ar|Os Dez Mandamentos|Ben-Hur|Rocky|Rambo|Karate Kid|Matrix Reloaded|O Silêncio dos Inocentes|Psicose|Os Pássaros|Sexto Sentido|Garota Exemplar|Se7en|Beetlejuice|A Fantástica Fábrica de Chocolate|Alice no País das Maravilhas|Peter Pan|Pinóquio|Dumbo|Bambi|A Pequena Sereia|Pocahontas|Tarzan|Lilo & Stitch|Os 101 Dálmatas|A Dama e o Vagabundo|Mary Poppins|Mamma Mia!|La La Land|O Rei do Show|Bohemian Rhapsody")},
+ desenhos:{name:"Desenhos & Animes",icon:"fa-tv",c:["#ff9a9e","#ff4d8d"],words:W("Dragon Ball Z|Naruto|One Piece|Pokémon|Os Simpsons|Bob Esponja|Tom e Jerry|Pernalonga|Mickey Mouse|Pato Donald|Scooby-Doo|Os Flintstones|Os Jetsons|Caverna do Dragão|Turma da Mônica|Chaves|Ben 10|Hora de Aventura|Apenas um Show|O Incrível Mundo de Gumball|Gravity Falls|Phineas e Ferb|Miraculous: Ladybug|Patrulha Canina|Peppa Pig|Masha e o Urso|Turma da Mônica Jovem|Death Note|Attack on Titan|Demon Slayer|Jujutsu Kaisen|My Hero Academia|Hunter x Hunter|Cavaleiros do Zodíaco|Yu-Gi-Oh!|Beyblade|Digimon|Sailor Moon|Sakura Card Captors|Avatar: A Lenda de Aang|As Meninas Superpoderosas|Laboratório de Dexter|Du, Dudu e Edu|Coragem, o Cão Covarde|A Vaca e o Frango|Johnny Bravo|Mutante Rex|Transformers|Thundercats|He-Man|She-Ra|Bluey|Pica-Pau|Tartarugas Ninja|Power Rangers|Snoopy|Chapolin|Pateta|Backyardigans|Ursinhos Carinhosos|Bleach|Fullmetal Alchemist|Chainsaw Man|Spy x Family|Mob Psycho 100|Dr. Stone|Tokyo Revengers|Black Clover|Blue Lock|Haikyuu!!|Slam Dunk|Bakugan|InuYasha|YuYu Hakusho|Evangelion|Cowboy Bebop|Berserk|Steins;Gate|Sakamoto Days|Dandadan|Solo Leveling|Pica-Pau e Seus Amigos|Tio Patinhas|Pateta e Seu Filho|Looney Tunes|Papa-Léguas|Frajola e Piu-Piu|Manda-Chuva|Space Ghost|Hong Kong Fu|Jackie Chan Aventuras|Os Padrinhos Mágicos|Rugrats|Hey Arnold!|As Aventuras de Jackie Chan|Dragon Ball|Pokémon Go|Super Mario Bros|Sonic|Kim Possible|Irmão do Jorel|Historietas Assombradas|Show da Luna|Galinha Pintadinha|Mundo Bita|Cocoricó|Castelo Rá-Tim-Bum|Sítio do Picapau Amarelo|Xou da Xuxa|Cocoricó|Pocoyo|Dora, a Aventureira|Backyardigans|Backyard Sports|Rick e Morty|South Park|Family Guy|Futurama|Archer|Bojack Horseman|Hora do Pesadelo|Gato de Botas|Madagascar|Kung Fu Panda|Os Pinguins de Madagascar|Ice Age|Rio|Moana|Valente|Enrolados|Tarzan|Aladdin|Hércules|Mulan")},
+ esportes:{name:"Esportes",icon:"fa-futbol",c:["#38f9d7","#00b4db"],words:W("Futebol|Basquete|Vôlei|Tênis|Natação|Judô|Boxe|Surfe|Skate|Ciclismo|Corrida|Handebol|Rúgbi|Beisebol|Golfe|Esgrima|Ginástica|Balé|Ioga|Escalada|Remo|Triatlo|Maratona|Salto com Vara|Arco e Flecha|Hóquei|Futevôlei|Capoeira|Jiu-Jitsu|Fórmula 1|Pênalti|Escanteio|Drible|Cartão Vermelho|Medalha de Ouro|Copa do Mundo|Olimpíadas|Mergulho|Esqui|Patinação|Snowboard|Pingue-Pongue|Badminton|Xadrez|Gol de Placa|Cesta de Três|Saque|Impedimento|Vôlei de Praia|Futsal|Polo Aquático|Hóquei no Gelo|Curling|Críquete|Hipismo|Decatlo|Salto Ornamental|Tiro com Arco|MotoGP|Motocross|BMX|Kitesurf|Windsurf|Vela|Canoagem|Paraquedismo|Parkour|CrossFit|Halterofilismo|Sumô|Muay Thai|Taekwondo|Karatê|Arremesso de Peso|Lançamento de Dardo|Salto em Distância|Salto em Altura|100 Metros Rasos|Revezamento|Corrida de Obstáculos|Natação Sincronizada|Nado Borboleta|Nado Costas|Cobrança de Falta|Falta|Bola Fora|Tiro de Meta|Árbitro|Juiz de Linha|Bandeirinha|Torcida|Mascote|Hino Nacional|Pódio|Troféu|Taça|Camisa 10|Goleiro|Zagueiro|Lateral|Atacante|Centroavante|Meio-campista|Cobertura|Bola de Ouro|Chuteira|Luva de Goleiro|Cabeçada|Voleio|Bicicleta|Letra|Chapéu|Caneta|Pedalada|Rabona|Slam Dunk|Enterrada|Tocos|Rebote|Lance Livre|Ace|Smash|Set|Game|Match Point|Tie-break|Ippon|Nocaute|Round|Corner|Strike|Home Run|Hole in One|Hat-trick")},
+ profissoes:{name:"Profissões",icon:"fa-briefcase",c:["#f6d365","#fda085"],words:W("Médico|Professor|Bombeiro|Policial|Piloto|Astronauta|Cozinheiro|Padeiro|Dentista|Veterinário|Jardineiro|Motorista|Carteiro|Mecânico|Pedreiro|Eletricista|Encanador|Advogado|Juiz|Cantor|Ator|Palhaço|Mágico|Fotógrafo|Jornalista|Youtuber|Programador|Cientista|Engenheiro|Arquiteto|Pintor|Costureira|Cabeleireiro|Garçom|Pescador|Fazendeiro|Salva-vidas|Detetive|Bailarino|Marinheiro|Soldado|Bibliotecário|Enfermeiro|Personal Trainer|Maquiador|DJ|Dublador|Influencer|Gari|Psicólogo|Nutricionista|Fisioterapeuta|Farmacêutico|Biólogo|Químico|Astrônomo|Economista|Contador|Secretário|Recepcionista|Florista|Confeiteiro|Barista|Sommelier|Manicure|Massagista|Tatuador|Serralheiro|Marceneiro|Sapateiro|Alfaiate|Açougueiro|Borracheiro|Controlador de Voo|Meteorologista|Arqueólogo|Historiador|Filósofo|Tradutor|Guia Turístico|Corretor de Imóveis|Bancário|Designer Gráfico|Editor de Vídeo|Locutor|Roteirista|Diretor de Cinema|Produtor Musical|Padre|Pastor|Freira|Faxineiro|Porteiro|Segurança|Vigia|Frentista|Caixa de Supermercado|Vendedor|Padeiro|Entregador|Motoboy|Taxista|Caminhoneiro|Maquinista|Comissário de Bordo|Capitão do Navio|Pirata|Cowboy|Vaqueiro|Lenhador|Ferreiro|Oleiro|Escultor|Ilustrador|Cartunista|Escritor|Poeta|Cantor de Ópera|Maestro|Violinista|Pianista|Guitarrista|Baterista|Atleta|Técnico de Futebol|Árbitro|Narrador|Comentarista|Apresentador|Repórter|Âncora de Jornal|Chef de Cozinha|Sushiman|Pizzaiolo|Churrasqueiro|Bartender|Cervejeiro|Viticultor|Apicultor|Pecuarista|Biomédico|Cirurgião|Anestesista|Pediatra|Dermatologista|Cardiologista|Ortopedista|Oftalmologista|Parteira|Paramédico|Socorrista|Perito|Delegado|Promotor|Defensor Público|Político|Prefeito|Presidente|Diplomata|Embaixador|Espião|Mágico de Rua|Mímico|Equilibrista|Domador de Leões|Trapezista|Dublê|Figurinista|Cenógrafo|Maquinista de Teatro")},
+ lugares:{name:"Lugares Famosos",icon:"fa-earth-americas",c:["#4facfe","#00c2a8"],words:W("Cristo Redentor|Pão de Açúcar|Copacabana|Maracanã|Cataratas do Iguaçu|Amazônia|Fernando de Noronha|Lençóis Maranhenses|Pelourinho|Avenida Paulista|Parque Ibirapuera|Congresso Nacional|Teatro Amazonas|Pantanal|Gramado|Beto Carrero World|Jalapão|Chapada Diamantina|Bonito|Arpoador|Ipanema|Escadaria Selarón|Torre Eiffel|Arco do Triunfo|Museu do Louvre|Notre-Dame|Palácio de Versalhes|Mont Saint-Michel|Coliseu|Vaticano|Basílica de São Pedro|Fontana di Trevi|Torre de Pisa|Canais de Veneza|Duomo de Milão|Sagrada Família|Alhambra|Big Ben|Torre de Londres|Palácio de Buckingham|Stonehenge|London Eye|Portão de Brandemburgo|Muro de Berlim|Castelo de Neuschwanstein|Moinhos da Holanda|Casa de Anne Frank|Acrópole de Atenas|Partenon|Santorini|Hagia Sophia|Capadócia|Kremlin|Praça Vermelha|Pirâmides do Egito|Esfinge|Vale dos Reis|Petra|Burj Khalifa|Taj Mahal|Templo Dourado|Muralha da China|Cidade Proibida|Guerreiros de Terracota|Monte Fuji|Shibuya Crossing|Torre de Tóquio|Templo de Kyoto|Angkor Wat|Baía de Ha Long|Marina Bay Sands|Ilhas Maldivas|Bora Bora|Grande Barreira de Corais|Ópera de Sydney|Uluru|Estátua da Liberdade|Times Square|Central Park|Empire State|Ponte do Brooklyn|Hollywood|Calçada da Fama|Las Vegas|Golden Gate|Alcatraz|Grand Canyon|Cataratas do Niágara|Disney World|Universal Studios|Monte Rushmore|Casa Branca|Parque de Yellowstone|Machu Picchu|Salar de Uyuni|Ilha de Páscoa|Galápagos|Patagônia|Cristo de Cochabamba|Chichén Itzá|Cancún|Havana|Canal do Panamá|Torre CN|Lago Louise|Aurora Boreal|Fiordes Noruegueses|Cabo da Boa Esperança|Monte Kilimanjaro|Serengeti|Cataratas Vitória|Sahara|Mar Morto|Monte Everest|Antártida|Polo Norte|Triângulo das Bermudas|Atlântida|Torre Eiffel de Las Vegas|Ponte da Amizade|Ponte Rio-Niterói|Ponte Estaiada|Estádio do Pacaembu|Mineirão|Jardim Botânico|Floresta da Tijuca|Cristo de Lisboa|Torre de Belém|Mosteiro dos Jerónimos|Sintra|Porto|Costa Amalfitana|Capri|Pompeia|Vesúvio|Etna|Lago Como|Alpes Suíços|Matterhorn|Interlaken|Praga|Ponte Carlos|Castelo de Praga|Budapeste|Parlamento de Budapeste|Palácio de Schönbrunn|Mozarteum|Salzburgo|Bruges|Grand Place de Bruxelas|Manneken Pis|Edimburgo|Lago Ness|Penhascos de Moher|Giant's Causeway|Blue Lagoon|Gêiser Strokkur|Vulcão Eyjafjallajökull")},
+ ciencias:{name:"Ciências",icon:"fa-atom",c:["#00c2ff","#7a4dff"],words:W("Teorema de Pitágoras|Equação de Schrödinger|E=mc²|Lei da Gravidade|Leis de Newton|Teoria da Relatividade|Mecânica Quântica|DNA|Fotossíntese|Evolução das Espécies|Seleção Natural|Tabela Periódica|Átomo|Elétron|Próton|Nêutron|Fissão Nuclear|Fusão Nuclear|Termodinâmica|Entropia|Eletromagnetismo|Princípio de Arquimedes|Lei de Ohm|Efeito Doppler|Efeito Estufa|Big Bang|Buraco Negro|Matéria Escura|Energia Escura|Velocidade da Luz|Constante de Planck|Número de Avogadro|Derivada|Integral|Número Pi|Geometria|Teoria dos Jogos|Mitocôndria|Ribossomo|Osmose|Clorofila|Enzima|Nanotecnologia|Reação Química|Catalisador|Isótopo|Radioatividade|Fóton|Quasar|Pulsar|Supernova|Nebulosa|Deriva Continental|Ciclo da Água|Camada de Ozônio|Ecossistema|Biodiversidade|Genética|Mutação|Clonagem|Célula-tronco|Neurônio|Sinapse|Hormônio|Insulina|Adrenalina|Dopamina|Serotonina|Sistema Solar|Via Láctea|Galáxia|Cometa|Asteroide|Meteoro|Eclipse Solar|Eclipse Lunar|Lua Cheia|Marte|Júpiter|Saturno|Vênus|Mercúrio|Netuno|Urano|Plutão|Telescópio|Microscópio|Termômetro|Barômetro|Bússola|Pêndulo|Alavanca|Polia|Plano Inclinado|Vulcão|Terremoto|Tsunami|Furacão|Tornado|Raio|Trovão|Arco-íris|Aurora Boreal|Ímã|Eletricidade|Bateria|Circuito|Lâmpada|Laser|Raio-X|Ultrassom|Vacina|Antibiótico|Vírus|Bactéria|Fungo|Célula|Cromossomo|Proteína|Vitamina|Fóssil|Dinossauro|Mamute|Homem das Cavernas|Inteligência Artificial|Robô|Computador|Internet|Satélite|Foguete|Estação Espacial|Sonda Espacial|Vácuo|Gravidade Zero|Ondas Sonoras|Eco|Espectro de Luz|Prisma|Lente|Espelho Côncavo|Fricção|Inércia|Energia Solar|Energia Eólica|Hidrelétrica|Biocombustível|Reciclagem|Aquecimento Global|Placas Tectônicas|Camadas da Terra|Núcleo da Terra|Atmosfera|Estratosfera|Efeito Borboleta|Gato de Schrödinger|Paradoxo dos Gêmeos|Máquina do Tempo|Wormhole")},
+ games:{name:"Games",icon:"fa-gamepad",c:["#a770ef","#00c2ff"],words:W("Minecraft|Fortnite|Free Fire|Roblox|Mario|Sonic|Zelda|Pac-Man|Tetris|Pokémon Go|Among Us|FIFA|GTA|Call of Duty|League of Legends|Counter-Strike|Valorant|The Sims|Angry Birds|Candy Crush|Subway Surfers|Clash Royale|Brawl Stars|Super Smash Bros|Street Fighter|Mortal Kombat|Donkey Kong|Kirby|Pikachu|Link|Luigi|Bowser|Yoshi|Princesa Peach|Crash Bandicoot|Fall Guys|Overwatch|Rocket League|Mario Kart|Animal Crossing|Just Dance|Wii Sports|PlayStation|Xbox|Nintendo Switch|Game Boy|Fliperama|God of War|The Witcher|Elden Ring|Cyberpunk 2077|Resident Evil|Silent Hill|Metal Gear Solid|Final Fantasy|Kingdom Hearts|Dark Souls|Monster Hunter|Dragon Quest|Stardew Valley|Terraria|Hollow Knight|Celeste|Undertale|Cuphead|Dota 2|Portal|Half-Life|Genshin Impact|Clash of Clans|PUBG|Apex Legends|Halo|Gears of War|Forza Horizon|Gran Turismo|Need for Speed|NBA 2K|Tony Hawk's Pro Skater|Pong|Space Invaders|Asteroids|Frogger|Donkey Kong Country|Metroid|Mega Man|Castlevania|Contra|Streets of Rage|Altered Beast|Golden Axe|Duck Hunt|Super Mario World|Mario 64|Ocarina of Time|GoldenEye|Banjo-Kazooie|Spyro|Rayman|Lara Croft|Tomb Raider|Uncharted|The Last of Us|Red Dead Redemption|Assassin's Creed|Far Cry|Battlefield|Doom|Quake|Wolfenstein|Bioshock|Skyrim|Fallout|Mass Effect|Diablo|World of Warcraft|StarCraft|Warcraft|Age of Empires|Civilization|Hearthstone|Pokémon Unite|Mobile Legends|Wild Rift|Garena|Plants vs. Zombies|Cut the Rope|Fruit Ninja|Temple Run|Flappy Bird|Crossy Road|Geometry Dash|Stumble Guys|Slither.io|Agar.io|Wordle|Jogo da Velha|Dominó|Xadrez|Damas|Uno|Banco Imobiliário|Detetive|War|Imagem e Ação|Jogo da Vida|Cara a Cara")},
+ objetos:{name:"Objetos da Casa",icon:"fa-couch",c:["#fbc2eb","#a6c1ee"],words:W("Geladeira|Fogão|Micro-ondas|Sofá|Cama|Travesseiro|Cobertor|Chuveiro|Vaso Sanitário|Pia|Espelho|Guarda-roupa|Televisão|Controle Remoto|Ventilador|Ar-condicionado|Liquidificador|Batedeira|Panela de Pressão|Frigideira|Garfo|Colher|Faca|Prato|Copo|Xícara|Garrafa Térmica|Vassoura|Rodo|Balde|Aspirador de Pó|Ferro de Passar|Máquina de Lavar|Varal|Cabide|Escova de Dentes|Pente|Secador de Cabelo|Chinelo|Guarda-chuva|Relógio|Despertador|Abajur|Lustre|Tapete|Cortina|Chave|Cadeado|Escada|Torradeira|Cafeteira|Sanduicheira|Espremedor|Air Fryer|Forno Elétrico|Lava-louças|Purificador de Água|Bebedouro|Tábua de Passar|Escova de Cabelo|Prancha de Cabelo|Barbeador|Cortador de Unha|Cotonete|Papel Higiênico|Toalha de Banho|Saboneteira|Lixeira|Sapateira|Criado-mudo|Poltrona|Puf|Mesa de Centro|Mesa de Jantar|Cadeira|Estante|Rack|Persiana|Almofada|Manta|Edredom|Lençol|Fronha|Colchão|Beliche|Berço|Cômoda|Penteadeira|Banheira|Bidê|Ralo|Torneira|Registro|Mangueira|Regador|Cortador de Grama|Churrasqueira|Rede|Cadeira de Praia|Ombrelone|Piscina|Escorregador|Balanço|Gangorra|Bola|Boneca|Carrinho|Quebra-cabeça|Lego|Ursinho de Pelúcia|Mochila|Lancheira|Estojo|Caderno|Lápis|Caneta|Borracha|Régua|Tesoura|Cola|Grampeador|Calculadora|Livro|Revista|Jornal|Quadro|Vaso de Planta|Porta-retrato|Calendário|Telefone|Celular|Carregador|Fone de Ouvido|Notebook|Mouse|Teclado|Impressora|Roteador|Câmera|Rádio|Caixa de Som|Violão|Piano|Microfone|Videogame|Óculos|Chapéu|Boné|Sapato|Tênis|Meia|Cinto|Gravata|Carteira|Bolsa|Mala|Anel|Colar|Pulseira|Brinco|Perfume|Batom|Esmalte|Sabonete|Shampoo|Condicionador|Pasta de Dente|Fio Dental|Desodorante|Protetor Solar|Lanterna|Vela|Fósforo|Isqueiro|Panela|Escumadeira|Concha|Ralador|Descascador|Abridor de Latas|Saca-rolhas|Tábua de Corte|Peneira|Funil|Rolo de Macarrão|Forma de Bolo|Pote|Marmita|Jarra|Taça|Prato Fundo|Bandeja|Guardanapo|Toalha de Mesa|Pano de Prato|Esponja|Detergente|Sabão em Pó|Amaciante|Água Sanitária|Desinfetante|Pá de Lixo|Saco de Lixo|Extensão|Tomada|Interruptor|Lâmpada LED|Campainha|Maçaneta|Fechadura|Porta|Janela|Cerca|Portão|Interfone|Caixa de Correio|Capacho")},
+ acoes:{name:"Mímica (Ações)",icon:"fa-person-running",c:["#ff9966","#ff5e62"],words:W("Dançar|Pular|Correr|Nadar|Dormir|Chorar|Rir|Cantar|Escovar os Dentes|Tomar Banho|Cozinhar|Dirigir|Pescar|Escalar|Tirar Selfie|Jogar Bola|Andar de Bicicleta|Tocar Violão|Falar ao Telefone|Beber Água|Espirrar|Bocejar|Voar|Fazer Careta|Abraçar|Aplaudir|Dar Tchau|Pentear o Cabelo|Passar Maquiagem|Varrer a Casa|Lavar Louça|Regar Plantas|Soprar Vela|Abrir Presente|Pintar a Parede|Remar|Surfar|Patinar|Fazer Flexão|Levantar Peso|Tropeçar|Dar Cambalhota|Tomar Sorvete|Esquiar|Plantar Bananeira|Fazer Pipoca|Lavar o Rosto|Amarrar o Tênis|Trocar de Roupa|Passar Perfume|Cortar o Cabelo|Estalar os Dedos|Piscar o Olho|Assobiar|Gritar|Sussurrar|Engatinhar|Cair da Cadeira|Bater na Porta|Tocar Piano|Tocar Bateria|Tocar Flauta|Tocar Violino|Dirigir Caminhão|Pilotar Avião|Andar de Patinete|Andar de Skate|Jogar Boliche|Jogar Tênis|Jogar Basquete|Jogar Golfe|Jogar Vôlei|Fazer Gol|Escorregar na Casca de Banana|Comer Melancia|Chupar Picolé|Mascar Chiclete|Fazer Bolha de Chiclete|Engolir Remédio|Medir a Febre|Tomar Injeção|Passar Roupa|Fazer a Cama|Cortar Cebola|Quebrar um Ovo|Bater um Bolo|Abrir uma Lata|Servir um Café|Tomar Sopa|Comer Macarrão|Comer Espaguete|Morder um Limão|Tomar Chá|Fumar Cachimbo|Soprar Bolha de Sabão|Empinar Pipa|Jogar Peteca|Pular Corda|Brincar de Pique-esconde|Jogar Dardos|Jogar Cartas|Jogar Xadrez|Jogar Videogame|Digitar no Computador|Mandar Beijo|Dar um Tapa|Dar um Soco|Chutar|Empurrar|Puxar a Corda|Carregar Peso|Levantar da Cama|Acordar com o Despertador|Andar de Cavalo|Andar de Camelo|Andar de Elefante|Andar de Moto|Andar de Patins|Andar na Corda Bamba|Andar como Robô|Andar como Zumbi|Andar como Pato|Imitar um Macaco|Imitar um Leão|Imitar uma Galinha|Imitar um Cachorro|Imitar um Gato|Imitar um Pássaro|Imitar um Peixe|Imitar um Cavalo|Imitar um Elefante|Imitar um Pinguim|Imitar um Canguru|Imitar um Gorila|Dar Mortal|Plantar uma Árvore|Cavar um Buraco|Pescar Peixe|Cortar Lenha|Montar Barraca|Fazer Fogueira|Fugir do Urso|Tomar Banho de Chuva|Esperar o Ônibus|Atravessar a Rua|Fazer Fila|Pegar Táxi|Carregar a Mala|Fazer Check-in|Tirar Foto|Gravar Vídeo|Fazer Live|Dar Entrevista|Cortar Fita|Cortar o Bolo|Cantar Parabéns|Brindar|Beijar a Mão|Fazer Reverência|Rezar|Meditar|Fazer Yoga|Fazer Alongamento|Fazer Abdominal|Pular Elástico|Fazer Parada de Mão|Fazer Estrela|Dar Cartwheel|Fazer Moonwalk|Dançar Funk|Dançar Samba|Dançar Forró|Dançar Valsa|Dançar Break")}
+};
+Object.values(themes).forEach(t=>{const seen=new Set();t.words=t.words.filter(w=>{const k=w.toLowerCase();if(seen.has(k))return false;seen.add(k);return true})});
+themes.misto={name:"Misto (tudo!)",icon:"fa-shuffle",c:["#ff4d8d","#ffc933"],words:[...new Set(Object.values(themes).flatMap(t=>t.words))]};
+
+let selectedTheme='animais',gameTime=60,currentWords=[],currentIndex=0,scoreCorrect=0,scoreSkipped=0,streak=0,
+ wordHistoryList=[],timerInterval=null,countdownTimeout=null,endTime=0,timeLeft=60,
+ isPlaying=false,isCounting=false,lastAction=0,lastShownWord=null;
+
+function loadPrefs(){try{
+ const t=localStorage.getItem('ggpt_theme'),s=parseInt(localStorage.getItem('ggpt_time'),10);
+ if(t&&themes[t])selectedTheme=t;if([30,60,90,120].includes(s))gameTime=s;
+ if(localStorage.getItem('ggpt_sound')==='0')soundOn=false;
+ if(localStorage.getItem('ggpt_tilt')==='0')tiltOn=false;
+}catch(e){}}
+function savePrefs(){try{localStorage.setItem('ggpt_theme',selectedTheme);localStorage.setItem('ggpt_time',String(gameTime))}catch(e){}}
+
+function addBubbles(el){
+ const em=['🎈','⭐','✨','🎉','🍭','💫','🎵'];
+ for(let i=0;i<9;i++){
+  const s=document.createElement('span');s.className='bub';s.textContent=em[i%em.length];
+  s.style.left=(Math.random()*94)+'%';s.style.fontSize=(18+Math.random()*22)+'px';
+  s.style.animationDuration=(11+Math.random()*10)+'s';s.style.animationDelay=(-Math.random()*14)+'s';
+  el.prepend(s);
+ }
+}
+
+function initThemes(){
+ const box=$('themes-container');box.innerHTML='';
+ for(const [key,t] of Object.entries(themes)){
+  const b=document.createElement('button');
+  b.className='card tile'+(key===selectedTheme?' sel':'');
+  b.onclick=()=>{selectedTheme=key;savePrefs();playSound('click');initThemes()};
+  const ico=document.createElement('div');ico.className='ico';
+  ico.style.background=`linear-gradient(135deg,${t.c[0]},${t.c[1]})`;
+  ico.innerHTML=`<i class="fa-solid ${t.icon}"></i>`;
+  const txt=document.createElement('div');
+  const n=document.createElement('b');n.textContent=t.name;
+  const s=document.createElement('small');s.textContent=t.words.length+' palavras';
+  txt.append(n,s);b.append(ico,txt);box.appendChild(b);
+ }
+ const sel=box.querySelector('.sel');if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});
+}
+function setTime(sec){
+ gameTime=sec;savePrefs();playSound('click');
+ document.querySelectorAll('.time-btn').forEach(b=>b.classList.toggle('sel',parseInt(b.dataset.time,10)===sec));
+}
+function shuffleArray(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+function setBg(el){const c=themes[selectedTheme].c;el.style.background=`linear-gradient(160deg,${c[0]},${c[1]})`}
+
+function startCountdown(){
+ if(isCounting||isPlaying)return;
+ isCounting=true;initAudio();playSound('click');
+ tiltActive=false;tiltArmed=false;
+ const hint=$('hint');
+ hint.innerHTML='<i class="fa-solid fa-hand-pointer"></i> Deslize ↓ ou → para acertar · ↑ ou ← para pular';
+ if(tiltOn){
+  enableTilt().then(ok=>{
+   tiltActive=ok;
+   hint.innerHTML=ok
+    ?'<i class="fa-solid fa-mobile-screen"></i> Incline para <b>baixo</b> = acertou · para <b>cima</b> = pulou<br><small>(deslizar e tocar também funcionam)</small>'
+    :'<i class="fa-solid fa-hand-pointer"></i> Sensor indisponível. Deslize ↓ → acertar · ↑ ← pular';
+  });
+ }
+ currentWords=shuffleArray(themes[selectedTheme].words);
+ currentIndex=0;scoreCorrect=0;scoreSkipped=0;streak=0;wordHistoryList=[];lastShownWord=null;
+ document.body.classList.add('in-game');
+ $('setup-screen').classList.add('hidden');
+ const cs=$('countdown-screen');setBg(cs);cs.classList.remove('hidden');
+ let count=3;const num=$('countdown-number');num.innerText=count;playSound('beep');vibrate(30);
+ const step=()=>{
+  count--;
+  if(count>0){num.innerText=count;playSound('beep');vibrate(30)}
+  else if(count===0){num.innerText='JÁ!';playSound('start');vibrate([60,40,60])}
+  else{cs.classList.add('hidden');isCounting=false;startGame();return}
+  countdownTimeout=setTimeout(step,1000);
+ };
+ countdownTimeout=setTimeout(step,1000);
+}
+
+function startGame(){
+ isPlaying=true;lastAction=0;tiltArmed=false;requestWakeLock();
+ const gs=$('game-screen');setBg(gs);gs.classList.remove('hidden');
+ $('current-theme-label').innerText=themes[selectedTheme].name;
+ $('live-score').innerText='0';$('timer-box').classList.remove('urgent');
+ timeLeft=gameTime;$('timer-display').innerText=timeLeft;
+ showNextWord('ok');
+ endTime=Date.now()+gameTime*1000;
+ timerInterval=setInterval(()=>{
+  const r=Math.max(0,Math.ceil((endTime-Date.now())/1000));
+  if(r!==timeLeft){
+   timeLeft=r;$('timer-display').innerText=r;
+   if(r<=10&&r>0){$('timer-box').classList.add('urgent');playSound(r<=3?'tick3':'tick')}
+  }
+  if(r<=0)endGame(true);
+ },200);
+}
+function showNextWord(kind){
+ if(currentIndex>=currentWords.length){
+  currentWords=shuffleArray(themes[selectedTheme].words);currentIndex=0;
+  if(currentWords.length>1&&currentWords[0]===lastShownWord)[currentWords[0],currentWords[1]]=[currentWords[1],currentWords[0]];
+ }
+ lastShownWord=currentWords[currentIndex];
+ const el=$('word-display');el.textContent=lastShownWord;
+ el.classList.remove('in-ok','in-skip');void el.offsetWidth;el.classList.add(kind==='skip'?'in-skip':'in-ok');
+}
+function canAct(){
+ if(!isPlaying)return false;
+ const n=Date.now();if(n-lastAction<350)return false;
+ lastAction=n;return true;
+}
+function flash(color){
+ const f=$('flash');f.style.background=color;f.style.opacity='.6';
+ setTimeout(()=>{f.style.opacity='0'},170);
+}
+function feedback(text,color){
+ const f=$('fb');f.textContent=text;f.style.color=color;
+ f.classList.remove('show');void f.offsetWidth;f.classList.add('show');
+}
+function burst(emojis){
+ for(let i=0;i<12;i++){
+  const p=document.createElement('span');p.className='part';p.textContent=emojis[i%emojis.length];
+  const a=Math.random()*Math.PI*2,d=90+Math.random()*130;
+  p.style.left='50%';p.style.top='45%';p.style.fontSize=(16+Math.random()*16)+'px';
+  p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');
+  document.body.appendChild(p);setTimeout(()=>p.remove(),800);
+ }
+}
+function handleCorrect(){
+ if(!canAct())return;
+ scoreCorrect++;streak++;
+ wordHistoryList.push({word:currentWords[currentIndex],status:'correct'});
+ $('live-score').innerText=scoreCorrect;
+ const sb=$('score-box');sb.classList.remove('bump');void sb.offsetWidth;sb.classList.add('bump');
+ flash('#12b886');vibrate(40);
+ if(streak>=3&&streak%3===0){playSound('combo');feedback('🔥 Sequência x'+streak+'!','#fff176');burst(['🔥','⭐','✨'])}
+ else{playSound('correct');feedback('✔ Acertou!','#b9f6ca');burst(['⭐','✨','🎉'])}
+ currentIndex++;showNextWord('ok');
+}
+function handleSkip(){
+ if(!canAct())return;
+ playSound('skip');scoreSkipped++;streak=0;
+ wordHistoryList.push({word:currentWords[currentIndex],status:'skipped'});
+ flash('#ff3b5c');vibrate([30,30,30]);feedback('⏭ Pulou','#ffd180');
+ const g=$('game-screen');g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');
+ currentIndex++;showNextWord('skip');
+}
+
+let tY=0,tX=0;
+window.addEventListener('touchstart',e=>{if(!isPlaying)return;tY=e.changedTouches[0].screenY;tX=e.changedTouches[0].screenX},{passive:true});
+window.addEventListener('touchend',e=>{
+ if(!isPlaying)return;
+ const dy=e.changedTouches[0].screenY-tY,dx=e.changedTouches[0].screenX-tX;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<40)return;
+ const good=Math.abs(dy)>=Math.abs(dx)?dy>0:dx>0;
+ good?handleCorrect():handleSkip();
+},{passive:true});
+
+function confetti(){
+ const em=['🎉','⭐','🎈','✨','🍭','🎊'];
+ for(let i=0;i<30;i++){
+  const s=document.createElement('span');s.className='confetti';s.textContent=em[i%em.length];
+  s.style.left=Math.random()*96+'vw';s.style.fontSize=(18+Math.random()*18)+'px';
+  s.style.animationDuration=(2.2+Math.random()*2)+'s';s.style.animationDelay=(Math.random()*.8)+'s';
+  document.body.appendChild(s);setTimeout(()=>s.remove(),5400);
+ }
+}
+function countUp(el,to){
+ el.innerText='0';if(!to)return;
+ let n=0;const step=Math.max(60,Math.min(140,900/to));
+ const iv=setInterval(()=>{n++;el.innerText=n;if(n>=to)clearInterval(iv)},step);
+}
+function endGame(timeUp){
+ if(!isPlaying)return;
+ isPlaying=false;tiltArmed=false;clearInterval(timerInterval);releaseWakeLock();
+ $('game-screen').classList.add('hidden');
+ $('result-screen').classList.remove('hidden');
+ $('res-title').innerText=scoreCorrect>=10?'Arrasou! 🏆':scoreCorrect>0?'Fim de jogo!':'Tente de novo!';
+ $('res-sub').innerText=scoreCorrect>=10?'Que rodada incrível!':scoreCorrect>0?'Que rodada divertida!':'Na próxima vai!';
+ countUp($('res-correct'),scoreCorrect);countUp($('res-skipped'),scoreSkipped);
+ const box=$('word-history');box.innerHTML='';
+ if(!wordHistoryList.length){
+  const p=document.createElement('p');p.style.cssText='text-align:center;font-size:.85rem;opacity:.6';
+  p.textContent='Nenhuma palavra jogada.';box.appendChild(p);
+ }else{
+  wordHistoryList.forEach((it,i)=>{
+   const ok=it.status==='correct';
+   const row=document.createElement('div');row.className='row';row.style.animationDelay=Math.min(i*40,800)+'ms';
+   const w=document.createElement('span');w.textContent=it.word;
+   const c=document.createElement('span');c.className='chip '+(ok?'ok':'no');c.textContent=ok?'Acertou':'Pulou';
+   row.append(w,c);box.appendChild(row);
+  });
+ }
+ if(timeUp)playSound('buzz');
+ setTimeout(()=>playSound(scoreCorrect>0?'win':'lose'),timeUp?500:0);
+ if(scoreCorrect>0)confetti();
+}
+function returnToMenu(){
+ $('result-screen').classList.add('hidden');
+ $('setup-screen').classList.remove('hidden');
+ document.body.classList.remove('in-game');
+ playSound('click');initThemes();
+}
+window.onload=()=>{
+ loadPrefs();refreshOpts();initThemes();setTime(gameTime);
+ ['setup-screen','countdown-screen','result-screen'].forEach(id=>addBubbles($(id)));
+};
+</script>
+</body>
+</html>
