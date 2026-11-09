@@ -216,12 +216,24 @@ function refreshOpts(){
 }
 function toggleOpt(k){
  if(k==='sound')soundOn=!soundOn;else tiltOn=!tiltOn;
- try{localStorage.setItem('gg_sound',soundOn?'1':'0');localStorage.setItem('gg_tilt',tiltOn?'1':'0')}catch(e){}
+ try{localStorage.setItem('ggpt_sound',soundOn?'1':'0');localStorage.setItem('ggpt_tilt',tiltOn?'1':'0')}catch(e){}
  refreshOpts();playSound('click');
 }
 
+// Inicialização e desbloqueio seguro do AudioContext para navegadores mobile (GitHub Pages)
 let audioCtx=null;
-function initAudio(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}}
+function initAudio(){
+ try{
+  if(!audioCtx){
+   const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+   audioCtx=new AudioContextClass();
+  }
+  if(audioCtx.state==='suspended'){
+   audioCtx.resume();
+  }
+ }catch(e){}
+}
+
 const SOUNDS={
  correct:[[660,0,.09,'triangle',.2],[990,.08,.16,'triangle',.2]],
  skip:[[330,0,.1,'sawtooth',.12,240],[220,.09,.16,'sawtooth',.1,150]],
@@ -236,10 +248,12 @@ const SOUNDS={
  win:[[523,0,.12,'triangle',.2],[659,.12,.12,'triangle',.2],[784,.24,.12,'triangle',.2],[1047,.36,.14,'triangle',.22],[784,.5,.1,'triangle',.2],[1047,.6,.4,'triangle',.24]],
  lose:[[392,0,.22,'sine',.15],[330,.22,.22,'sine',.15],[262,.44,.4,'sine',.15]]
 };
+
 function playSound(type){
  if(!soundOn)return;
  try{
-  initAudio();if(!audioCtx)return;
+  initAudio();
+  if(!audioCtx)return;
   const seq=SOUNDS[type];if(!seq)return;
   const t0=audioCtx.currentTime;
   seq.forEach(([f,s,d,w,v,f2])=>{
