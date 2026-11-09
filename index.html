@@ -1,213 +1,157 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#ffa751">
-<title>Browser Guess PT-BR</title>
+<meta name="theme-color" content="#0d0d0d">
+<title>Souls Guess EN</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#3b1f5e;--pink:#ff4d8d;--sun:#ffc933;--teal:#00c2a8;--violet:#7a4dff}
+:root{--bg:#0a0a0a;--card-bg:#141414;--border:#3a2e25;--gold:#c5a880;--gold-glow:#f3e5ab;--blood:#8a1c1c;--blood-bright:#d32f2f;--text:#e0dcd0;--muted:#8c857b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;overflow:hidden;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:#ffa751;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--text);background:var(--bg);touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .hidden{display:none!important}
 button{font:inherit;cursor:pointer}
 
-/* Telas Gerais */
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;
  padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
-.bg-sun{background:linear-gradient(160deg,#ffe259 0%,#ffa751 45%,#ff6a88 100%)}
-.card{background:#fff;border-radius:16px;box-shadow:0 4px 0 rgba(59,31,94,.15)}
-.btn{border:0;border-radius:16px;color:#fff;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.22);transition:transform .08s,box-shadow .08s}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
-.play{width:100%;padding:12px;font-size:1.15rem;background:linear-gradient(90deg,#ff4d8d,#ff7a45);display:flex;align-items:center;justify-content:center;gap:10px;animation:breathe 2s ease-in-out infinite}
-@keyframes breathe{50%{transform:scale(1.03)}}
-.logo{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#fff;font-size:1.3rem;color:var(--pink);box-shadow:0 3px 0 rgba(59,31,94,.2);animation:wig 3s ease-in-out infinite}
-@keyframes wig{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg) scale(1.08)}}
-h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35);letter-spacing:.5px}
-.sub{margin:2px 0 0;font-size:.75rem;color:var(--ink);font-weight:500}
-.lbl{margin:0 0 4px;font-size:.75rem;font-weight:700}
-#fs-btn{position:fixed;z-index:60;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:36px;height:36px;border-radius:50%;border:0;background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(59,31,94,.2);display:grid;place-items:center;font-size:.9rem}
-.bub{position:absolute;bottom:-12%;z-index:0;pointer-events:none;opacity:.4;animation:rise linear infinite}
-@keyframes rise{to{transform:translateY(-120vh) rotate(40deg)}}
+
+/* Estética Souls Dark */
+.bg-souls{background:radial-gradient(circle at center, #1c1815 0%, #080706 100%)}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.7)}
+.btn{border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Cinzel',serif;font-weight:700;background:#1a1715;box-shadow:0 4px 10px rgba(0,0,0,.5);transition:all .15s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+.play{width:100%;padding:12px;font-size:1.1rem;font-family:'Cinzel',serif;letter-spacing:1px;background:linear-gradient(135deg,#3a0e0e 0%,#1f0808 100%);border-color:var(--blood);color:var(--gold-glow);display:flex;align-items:center;justify-content:center;gap:10px;animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{50%{border-color:var(--blood-bright);box-shadow:0 0 15px rgba(211,47,47,.4)}}
+
+.logo{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#141414;border:1px solid var(--gold);font-size:1.2rem;color:var(--gold);box-shadow:0 0 10px rgba(197,168,128,.2);animation:pulse-glow 3s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 8px rgba(197,168,128,.2)}50%{box-shadow:0 0 18px rgba(197,168,128,.5)}}
+
+h1{margin:2px 0 0;font-family:'Cinzel',serif;font-size:1.3rem;line-height:1.1;color:var(--gold-glow);text-shadow:0 2px 4px rgba(0,0,0,.8);letter-spacing:1px;text-align:center}
+.sub{margin:2px 0 0;font-size:.7rem;color:var(--muted);font-weight:500;text-align:center;font-style:italic}
+.lbl{margin:0 0 4px;font-size:.7rem;font-family:'Cinzel',serif;font-weight:700;color:var(--gold);letter-spacing:.5px}
+
+#fs-btn{position:fixed;z-index:60;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:#141414;color:var(--gold);box-shadow:0 3px 8px rgba(0,0,0,.5);display:grid;place-items:center;font-size:.85rem}
 
 /* Setup */
 .setup,.result{display:flex;flex-direction:column;flex:1;min-height:0;gap:6px;justify-content:space-between;position:relative;z-index:1}
-.hero{text-align:center;padding-top:2px}
-.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:5px}
-.opt{border:2px solid rgba(59,31,94,.25);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:3px 9px;font-size:.68rem;font-weight:600;opacity:.65;transition:all .15s}
-.opt.on{background:#fff;border-color:var(--violet);opacity:1;box-shadow:0 2px 0 rgba(122,77,255,.2)}
-.pick{flex:1;min-height:0;display:flex;flex-direction:column}
-.themes-wrapper{flex:1;min-height:0;overflow-y:auto;padding-right:2px}
-.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
-.tile{display:flex;align-items:center;gap:6px;padding:5px 7px;border:2px solid transparent;text-align:left;color:var(--ink);transition:transform .1s}
-.tile:active{transform:scale(.96)}
-.tile.sel{border-color:var(--pink);background:#fff4c2;box-shadow:0 3px 0 rgba(255,77,141,.3);animation:selpop .3s}
-@keyframes selpop{50%{transform:scale(1.07)}}
-.ico{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.75rem}
-.tile b{display:block;font-size:.72rem;font-weight:600;line-height:1.1}
-.tile small{font-size:.6rem;opacity:.65}
-.tile div:last-child{min-width:0}
-.times{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
-.time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
-.time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
+.hero{text-align:center;flex:none}
+.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}
+.opt{border:1px solid var(--border);background:#141414;color:var(--muted);border-radius:999px;padding:3px 10px;font-size:.65rem;font-weight:600;transition:all .15s}
+.opt.on{background:#241d18;color:var(--gold-glow);border-color:var(--gold);box-shadow:0 0 8px rgba(197,168,128,.2)}
 
-/* ==========================================
-   TELA DE CONTAGEM REGRESSIVA (REVISADA)
-   ========================================== */
-#countdown-screen {
- position: fixed;
- inset: 0;
- z-index: 50;
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- text-align: center;
- padding: 12px;
- overflow: hidden;
-}
-.countdown-content {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- width: 100%;
- max-width: 400px;
- margin: auto;
-}
-.countdown-title {
- font-weight: 700;
- font-size: clamp(1rem, 4vw, 1.3rem);
- color: var(--ink);
- margin: 0 0 10px 0;
- text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-#countdown-number {
- font-size: clamp(6rem, 30vh, 14rem);
- font-weight: 700;
- line-height: 1;
- color: #fff;
- text-shadow: 0 8px 0 rgba(59,31,94,.3);
- animation: pop .9s ease-out infinite;
- margin: 0;
-}
-@keyframes pop {
- 0% { transform: scale(.4) rotate(-8deg); }
- 40% { transform: scale(1.15) rotate(3deg); }
- 100% { transform: scale(1) rotate(0); }
-}
-.hint {
- margin-top: 15px;
- padding: 8px 16px;
- border-radius: 999px;
- background: #fff;
- font-size: clamp(0.7rem, 2.5vw, 0.85rem);
- font-weight: 500;
- max-width: 95%;
- box-shadow: 0 4px 10px rgba(0,0,0,.15);
- color: var(--ink);
-}
+.pick{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.themes-wrapper{flex:1;min-height:0;overflow-y:auto;padding-right:2px}
+.themes{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.tile{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--border);background:var(--card-bg);text-align:left;color:var(--text);transition:all .15s;cursor:pointer}
+.tile:active{transform:scale(.97)}
+.tile.sel{border-color:var(--gold);background:#1c1713;box-shadow:0 0 10px rgba(197,168,128,.25)}
+.ico{flex:none;width:26px;height:26px;border-radius:6px;display:grid;place-items:center;color:#c5a880;font-size:.75rem;background:#0d0d0d;border:1px solid var(--border)}
+.tile b{display:block;font-size:.68rem;font-family:'Cinzel',serif;font-weight:700;color:var(--gold-glow);line-height:1.1}
+.tile small{font-size:.55rem;color:var(--muted)}
+.tile div:last-child{min-width:0}
+
+.timebox{flex:none}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.time-btn{padding:5px 0;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);font-weight:700;font-size:.72rem;color:var(--muted);transition:all .1s}
+.time-btn.sel{background:#241d18;color:var(--gold-glow);border-color:var(--gold)}
+.playbox{flex:none}
+
+/* Contagem Regressiva */
+#countdown-screen{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:15px;overflow:hidden}
+.countdown-content{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:400px;margin:auto}
+.countdown-title{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(1.1rem,4vw,1.4rem);color:var(--gold);margin:0 0 10px 0;letter-spacing:1px}
+#countdown-number{font-family:'Cinzel',serif;font-size:clamp(6rem,30vh,13rem);font-weight:900;line-height:1;color:var(--blood-bright);text-shadow:0 0 25px rgba(211,47,47,.6);animation:pop .9s ease-out infinite;margin:0}
+@keyframes pop{0%{transform:scale(.4);opacity:0}40%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
+.hint{margin-top:15px;padding:8px 16px;border-radius:999px;background:#141414;border:1px solid var(--border);font-size:clamp(0.7rem,2.5vw,0.8rem);font-weight:500;color:var(--muted);max-width:95%}
 
 /* Jogo */
-#game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
+#game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:var(--text)}
 .bar{grid-area:bar;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-right:42px}
-.pill{background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:700;display:flex;align-items:center;gap:6px}
-.pill.urgent{background:#ff3b5c;color:#fff;animation:pulse .6s infinite}
+.pill{background:var(--card-bg);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:5px 14px;font-weight:700;font-size:.8rem;display:flex;align-items:center;gap:6px}
+.pill.urgent{background:#3a0e0e;border-color:var(--blood-bright);color:var(--blood-bright);animation:pulse .6s infinite}
 .pill.bump{animation:bump .35s}
-@keyframes pulse{50%{transform:scale(1.1)}}
-@keyframes bump{40%{transform:scale(1.35) rotate(-6deg)}}
-.x{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink)}
-.wordbox{grid-area:word;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0;cursor:pointer}
-.tag{background:rgba(255,255,255,.9);color:var(--ink);padding:3px 14px;border-radius:999px;font-weight:700;font-size:.75rem;margin-bottom:8px}
-#word-display{margin:0;max-width:100%;font-size:clamp(2.2rem,11vw,4.2rem);line-height:1.1;font-weight:700;text-shadow:0 4px 0 rgba(59,31,94,.3);overflow-wrap:anywhere}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@keyframes bump{40%{transform:scale(1.25)}}
+.x{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card-bg);color:var(--muted)}
+.wordbox{grid-area:word;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0;cursor:pointer;padding:10px}
+.tag{background:#181512;border:1px solid var(--border);color:var(--gold);padding:3px 14px;border-radius:999px;font-weight:700;font-size:.7rem;margin-bottom:10px;font-family:'Cinzel',serif}
+#word-display{margin:0;max-width:100%;font-size:clamp(2rem,10vw,3.8rem);line-height:1.1;font-weight:700;font-family:'Cinzel',serif;color:var(--gold-glow);text-shadow:0 3px 10px rgba(0,0,0,.9);overflow-wrap:anywhere}
 #word-display.in-ok{animation:wOk .35s cubic-bezier(.3,1.6,.5,1)}
 #word-display.in-skip{animation:wSkip .3s ease-out}
-@keyframes wOk{0%{transform:translateY(-50px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
-@keyframes wSkip{0%{transform:translateY(50px) rotate(-4deg);opacity:0}100%{transform:none;opacity:1}}
-.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px;font-size:.85rem}
-.act i{font-size:1.3rem}
-.skip{grid-area:skip;background:#ff7a45}.ok{grid-area:ok;background:#12b886}
+@keyframes wOk{0%{transform:translateY(-30px) scale(.7);opacity:0}100%{transform:none;opacity:1}}
+@keyframes wSkip{0%{transform:translateY(30px);opacity:0}100%{transform:none;opacity:1}}
+.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px;font-size:.85rem;font-family:'Cinzel',serif}
+.act i{font-size:1.2rem}
+.skip{grid-area:skip;background:#1a1212;border-color:#4a1c1c;color:#e09f9f}.ok{grid-area:ok;background:#121a14;border-color:#1c4a2a;color:#9fe0b5}
 .l-only{display:none}
 #flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .15s}
-#fb{position:absolute;left:50%;top:42%;z-index:5;pointer-events:none;opacity:0;font-size:clamp(1.8rem,9vw,3.4rem);font-weight:700;white-space:nowrap;text-shadow:0 4px 0 rgba(0,0,0,.3)}
+#fb{position:absolute;left:50%;top:42%;z-index:5;pointer-events:none;opacity:0;font-size:clamp(1.6rem,8vw,3rem);font-weight:700;font-family:'Cinzel',serif;white-space:nowrap;text-shadow:0 4px 10px rgba(0,0,0,.8)}
 #fb.show{animation:fbpop .7s ease-out}
-@keyframes fbpop{0%{opacity:0;transform:translate(-50%,0) scale(.4)}25%{opacity:1;transform:translate(-50%,-10px) scale(1.15)}100%{opacity:0;transform:translate(-50%,-70px) scale(1)}}
+@keyframes fbpop{0%{opacity:0;transform:translate(-50%,0) scale(.4)}25%{opacity:1;transform:translate(-50%,-10px) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px) scale(1)}}
 .part{position:fixed;z-index:6;pointer-events:none;animation:burst .75s ease-out forwards}
-@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.4);opacity:0}}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(200deg) scale(.3);opacity:0}}
 .shake{animation:shake .3s}
-@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 /* Resultado */
 .result{grid-template-rows:auto minmax(0,1fr) auto}
 .top{text-align:center;padding-top:2px;padding-right:38px}
 .listbox{min-height:0;display:flex;flex-direction:column;flex:1}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.stat{padding:6px}.stat small{font-size:.65rem;font-weight:600;opacity:.7}
-.stat b{display:block;font-size:1.9rem;line-height:1.1}
-#word-history{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 8px;border-radius:10px;background:#f6f1ff;font-size:.8rem;font-weight:500;animation:rowin .3s both}
-@keyframes rowin{from{opacity:0;transform:translateX(-14px)}}
-.chip{flex:none;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
-.chip.ok{background:#12b886}.chip.no{background:#ff7a45}
-.confetti{position:fixed;top:-6vh;z-index:60;pointer-events:none;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
+.stat{padding:6px;border:1px solid var(--border)}.stat small{font-size:.62rem;font-weight:600;color:var(--muted);font-family:'Cinzel',serif}
+.stat b{display:block;font-size:1.7rem;line-height:1.1;font-family:'Cinzel',serif}
+#word-history{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px;background:#0d0d0d;border:1px solid var(--border)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:#141414;border:1px solid #241e1a;font-size:.78rem;font-weight:500;animation:rowin .3s both}
+@keyframes rowin{from{opacity:0;transform:translateX(-10px)}}
+.chip{flex:none;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:999px;font-family:'Cinzel',serif}
+.chip.ok{background:#122416;color:#9fe0b5;border:1px solid #1c4a2a}.chip.no{background:#241212;color:#e09f9f;border:1px solid #4a1c1c}
 
-/* Ajustes Específicos para Paisagem / Celular Deitado */
 @media (orientation:landscape) and (max-height:560px){
  .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:8px}
  .hero{grid-area:hero;padding-top:0}.pick{grid-area:themes}.timebox{grid-area:time}.playbox{grid-area:play;align-self:end}
- .hero .logo{width:34px;height:34px;font-size:1rem}
- h1{font-size:1.2rem}.sub{display:none}
+ .hero .logo{width:28px;height:28px;font-size:.8rem}
+ h1{font-size:1rem}.sub{display:none}
  .themes{grid-template-columns:repeat(2,1fr);gap:4px}
- .tile{padding:3px 5px}.ico{width:22px;height:22px;font-size:.65rem}
- .play{padding:7px;font-size:.95rem}
+ .tile{padding:3px 5px}.ico{width:18px;height:18px;font-size:.55rem}
+ .play{padding:6px;font-size:.85rem}
  #game-screen{grid-template-columns:clamp(96px,17vw,150px) 1fr clamp(96px,17vw,150px);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"skip bar ok" "skip word ok"}
- #word-display{font-size:clamp(2rem,16vh,4.2rem)}
+ #word-display{font-size:clamp(1.8rem,14vh,3.8rem)}
  .p-only{display:none}.l-only{display:inline}
  .result{display:grid;grid-template-columns:minmax(190px,36%) 1fr;grid-template-areas:"top list" "btn list";grid-template-rows:1fr auto;column-gap:10px}
  .top{grid-area:top}.listbox{grid-area:list}.btnbox{grid-area:btn}
- .top .logo{width:34px;height:34px;font-size:.9rem}
- .top h2{font-size:1.1rem!important}.top .sub{display:none}
- .stats{margin-top:4px}.stat b{font-size:1.3rem}
- 
- /* Ajuste paisagem na contagem regressiva */
- #countdown-number {
-  font-size: clamp(4rem, 24vh, 9rem);
- }
- .hint {
-  font-size: 0.7rem;
-  padding: 4px 10px;
-  margin-top: 6px;
- }
+ .top .logo{width:28px;height:28px;font-size:.7rem}
+ .top h2{font-size:.95rem!important}.top .sub{display:none}
+ .stats{margin-top:4px}.stat b{font-size:1.1rem}
+ #countdown-number { font-size: clamp(3.5rem, 22vh, 8rem); }
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<!-- Botão de Tela Cheia Global -->
-<button id="fs-btn" onclick="toggleFullScreen()" aria-label="Tela cheia"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
+<button id="fs-btn" onclick="toggleFullScreen()" aria-label="Toggle Fullscreen"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
 
 <!-- 1. MENU -->
-<div id="setup-screen" class="screen bg-sun">
+<div id="setup-screen" class="screen bg-souls">
  <div class="setup">
   <div class="hero">
-   <div class="logo"><i class="fa-solid fa-face-grin-stars"></i></div>
-   <h1>Browser Guess PT-BR</h1>
-   <p class="sub">Celular na testa, amigos dando dicas!</p>
+   <div class="logo"><i class="fa-solid fa-skull"></i></div>
+   <h1>Souls Guess EN</h1>
+   <p class="sub">Phone on your forehead, carry the burden of fallen realms!</p>
    <div class="opts">
-    <button id="opt-sound" class="opt" onclick="toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Sons</button>
-    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Giroscópio</button>
-    <button id="opt-touch" class="opt" onclick="toggleOpt('touch')"><i class="fa-solid fa-hand-pointer"></i> Swipe/Toque</button>
+    <button id="opt-sound" class="opt" onclick="toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Sound</button>
+    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Gyroscope</button>
+    <button id="opt-touch" class="opt" onclick="toggleOpt('touch')"><i class="fa-solid fa-hand-pointer"></i> Touch</button>
    </div>
   </div>
   <div class="pick">
-   <p class="lbl"><i class="fa-solid fa-icons"></i> Escolha o tema</p>
+   <p class="lbl"><i class="fa-solid fa-book-skull"></i> Choose Realm / Lore</p>
    <div class="themes-wrapper"><div id="themes-container" class="themes"></div></div>
   </div>
   <div class="timebox">
-   <p class="lbl"><i class="fa-solid fa-stopwatch"></i> Tempo de jogo</p>
+   <p class="lbl"><i class="fa-solid fa-hourglass-half"></i> Vigil Time</p>
    <div class="times">
     <button class="time-btn" data-time="30" onclick="setTime(30)">30s</button>
     <button class="time-btn" data-time="60" onclick="setTime(60)">1 min</button>
@@ -215,57 +159,57 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
     <button class="time-btn" data-time="120" onclick="setTime(120)">2 min</button>
    </div>
   </div>
-  <div class="playbox"><button class="btn play" onclick="startCountdown()"><i class="fa-solid fa-play"></i> Jogar agora</button></div>
+  <div class="playbox"><button class="btn play" onclick="startCountdown()"><i class="fa-solid fa-fire"></i> Link the Fire</button></div>
  </div>
 </div>
 
-<!-- 2. CONTAGEM COM DIV WRAPPER SEGURA -->
-<div id="countdown-screen" class="screen bg-sun hidden">
+<!-- 2. COUNTDOWN -->
+<div id="countdown-screen" class="screen bg-souls hidden">
  <div class="countdown-content">
-  <p class="countdown-title">Prepare o celular na testa!</p>
+  <p class="countdown-title">Prepare to Die...</p>
   <div id="countdown-number">3</div>
   <div class="hint" id="hint"></div>
  </div>
 </div>
 
-<!-- 3. JOGO -->
-<div id="game-screen" class="screen hidden">
+<!-- 3. GAME -->
+<div id="game-screen" class="screen bg-souls hidden">
  <div id="flash"></div>
  <div id="fb"></div>
  <div class="bar">
-  <div id="timer-box" class="pill"><i class="fa-solid fa-clock"></i><span id="timer-display">60</span>s</div>
-  <div id="score-box" class="pill"><i class="fa-solid fa-star" style="color:#ffb400"></i><span id="live-score">0</span></div>
-  <button class="x" onclick="endGame()" aria-label="Encerrar rodada"><i class="fa-solid fa-xmark"></i></button>
+  <div id="timer-box" class="pill"><i class="fa-solid fa-hourglass"></i><span id="timer-display">60</span>s</div>
+  <div id="score-box" class="pill"><i class="fa-solid fa-fire" style="color:var(--gold)"></i><span id="live-score">0</span></div>
+  <button class="x" onclick="endGame()" aria-label="Abandon"><i class="fa-solid fa-xmark"></i></button>
  </div>
  <div class="wordbox" onclick="handleCorrectClick()">
-  <span id="current-theme-label" class="tag">Tema</span>
+  <span id="current-theme-label" class="tag">Realm</span>
   <h2 id="word-display">...</h2>
  </div>
  <button class="btn act skip" onclick="event.stopPropagation();handleSkip()">
-  <i class="fa-solid fa-arrow-up p-only"></i><i class="fa-solid fa-arrow-left l-only"></i>Pular
+  <i class="fa-solid fa-arrow-up p-only"></i><i class="fa-solid fa-arrow-left l-only"></i>Dodge (Skip)
  </button>
  <button class="btn act ok" onclick="event.stopPropagation();handleCorrect()">
-  <i class="fa-solid fa-arrow-down p-only"></i><i class="fa-solid fa-arrow-right l-only"></i>Acertou!
+  <i class="fa-solid fa-arrow-down p-only"></i><i class="fa-solid fa-arrow-right l-only"></i>Victory (Correct)
  </button>
 </div>
 
-<!-- 4. RESULTADO -->
-<div id="result-screen" class="screen bg-sun hidden">
+<!-- 4. RESULT -->
+<div id="result-screen" class="screen bg-souls hidden">
  <div class="result">
   <div class="top">
-   <div class="logo"><i class="fa-solid fa-trophy"></i></div>
-   <h2 id="res-title" style="margin:2px 0 0;font-size:1.4rem;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35)">Fim de jogo!</h2>
-   <p class="sub" id="res-sub">Que rodada divertida!</p>
+   <div class="logo"><i class="fa-solid fa-skull-crossbones"></i></div>
+   <h2 id="res-title" style="margin:2px 0 0;font-size:1.3rem;font-family:'Cinzel',serif;color:var(--gold-glow)">YOU DIED</h2>
+   <p class="sub" id="res-sub">Darkness has claimed another soul.</p>
    <div class="stats">
-    <div class="card stat"><small>Acertos</small><b id="res-correct" style="color:#12b886">0</b></div>
-    <div class="card stat"><small>Puladas</small><b id="res-skipped" style="color:#ff7a45">0</b></div>
+    <div class="card stat"><small>Souls Collected</small><b id="res-correct" style="color:#9fe0b5">0</b></div>
+    <div class="card stat"><small>Blows Dodged</small><b id="res-skipped" style="color:#e09f9f">0</b></div>
    </div>
   </div>
   <div class="listbox">
-   <p class="lbl"><i class="fa-solid fa-list-check"></i> Resumo da rodada</p>
+   <p class="lbl"><i class="fa-solid fa-scroll"></i> Journey Log</p>
    <div id="word-history" class="card"></div>
   </div>
-  <div class="btnbox"><button class="btn play" onclick="returnToMenu()"><i class="fa-solid fa-rotate-right"></i> Jogar novamente</button></div>
+  <div class="btnbox"><button class="btn play" onclick="returnToMenu()"><i class="fa-solid fa-rotate-right"></i> Rest at Bonfire</button></div>
  </div>
 </div>
 
@@ -277,7 +221,7 @@ const tiltSupported='DeviceOrientationEvent' in window;
 
 function refreshOpts(){
  $('opt-sound').classList.toggle('on',soundOn);
- $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Sons`;
+ $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Sound`;
  $('opt-tilt').classList.toggle('on',tiltOn&&tiltSupported);
  $('opt-touch').classList.toggle('on',touchOn);
 }
@@ -287,9 +231,9 @@ function toggleOpt(k){
  else if(k==='tilt')tiltOn=!tiltOn;
  else if(k==='touch')touchOn=!touchOn;
  try{
-  localStorage.setItem('ggpt_sound',soundOn?'1':'0');
-  localStorage.setItem('ggpt_tilt',tiltOn?'1':'0');
-  localStorage.setItem('ggpt_touch',touchOn?'1':'0');
+  localStorage.setItem('souls_sound_en',soundOn?'1':'0');
+  localStorage.setItem('souls_tilt_en',tiltOn?'1':'0');
+  localStorage.setItem('souls_touch_en',touchOn?'1':'0');
  }catch(e){}
  refreshOpts();
  playSound('click');
@@ -302,9 +246,7 @@ function initAudio(){
    const AudioContextClass=window.AudioContext||window.webkitAudioContext;
    audioCtx=new AudioContextClass();
   }
-  if(audioCtx.state==='suspended'){
-   audioCtx.resume();
-  }
+  if(audioCtx.state==='suspended'){audioCtx.resume()}
   const dummy=audioCtx.createOscillator();
   const gain=audioCtx.createGain();
   gain.gain.value=0.001;
@@ -316,18 +258,18 @@ function initAudio(){
 }
 
 const SOUNDS={
- correct:[[660,0,.09,'triangle',.2],[990,.08,.16,'triangle',.2]],
- skip:[[330,0,.1,'sawtooth',.12,240],[220,.09,.16,'sawtooth',.1,150]],
- combo:[[523,0,.09,'triangle',.2],[659,.08,.09,'triangle',.2],[784,.16,.09,'triangle',.2],[1047,.24,.25,'triangle',.22]],
- beep:[[600,0,.1,'sine',.15]],
- start:[[800,0,.1,'sine',.2],[1200,.1,.28,'sine',.22]],
- tick:[[900,0,.05,'square',.05]],
- tick3:[[1300,0,.09,'square',.08]],
- click:[[520,0,.07,'sine',.1,720]],
- armed:[[880,0,.06,'sine',.1],[1320,.07,.09,'sine',.1]],
- buzz:[[180,0,.45,'sawtooth',.14,120]],
- win:[[523,0,.12,'triangle',.2],[659,.12,.12,'triangle',.2],[784,.24,.12,'triangle',.2],[1047,.36,.14,'triangle',.22],[784,.5,.1,'triangle',.2],[1047,.6,.4,'triangle',.24]],
- lose:[[392,0,.22,'sine',.15],[330,.22,.22,'sine',.15],[262,.44,.4,'sine',.15]]
+ correct:[[220,0,.15,'sawtooth',.15,440],[330,.1,.2,'triangle',.2,660]],
+ skip:[[110,0,.18,'sawtooth',.12,80]],
+ combo:[[330,0,.1,'triangle',.2],[440,.1,.1,'triangle',.2],[550,.2,.15,'triangle',.25],[880,.3,.3,'triangle',.3]],
+ beep:[[150,0,.12,'sine',.25]],
+ start:[[110,0,.25,'sawtooth',.3,220],[220,.2,.4,'triangle',.35,330]],
+ tick:[[180,0,.06,'square',.08]],
+ tick3:[[240,0,.09,'square',.12]],
+ click:[[200,0,.08,'sine',.12,120]],
+ armed:[[300,0,.08,'triangle',.15]],
+ buzz:[[70,0,.6,'sawtooth',.2,40]],
+ win:[[220,0,.2,'triangle',.25],[330,.2,.2,'triangle',.25],[440,.4,.3,'triangle',.3],[550,.7,.6,'triangle',.35]],
+ lose:[[150,0,.3,'sawtooth',.25,90],[100,.3,.5,'sawtooth',.3,50]]
 };
 
 function playSound(type){
@@ -395,58 +337,52 @@ function onTilt(e){
 
 const W=s=>s.split('|');
 const themes={
- animais:{name:"Animais",icon:"fa-dog",c:["#43e97b","#12b886"],words:W("Leão|Elefante|Girafa|Zebra|Macaco|Tigre|Urso-pardo|Lobo|Raposa|Coelho|Canguru|Koala|Panda|Gorila|Hipopótamo|Rinoceronte|Crocodilo|Tartaruga|Jacaré|Serpente|Águia|Falcão|Coruja|Papagaio|Flamingo|Pinguim|Golfinho|Baleia|Tubarão|Polvo|Cavalo|Vaca|Porco|Ovelha|Cabra|Galinha|Pato|Ganso|Peru|Camelo|Lhama|Hiena|Leopardo|Onça-pintada|Tamanduá|Capivara|Tatu|Arara|Tucano|Esquilo|Castor|Foca|Leão-marinho|Morcego|Ouriço|Abelha|Borboleta|Formiga|Aranha|Sapo|Camaleão|Pavão|Urso-polar|Lontra|Preguiça|Peixe-palhaço|Cavalo-marinho|Lula|Chita|Condor|Alce|Rena|Bisonte|Antílope|Hamster|Porquinho-da-índia|Furão|Chinchila|Baleia-azul|Orca|Estrela-do-mar|Caranguejo|Lagosta|Camarão|Água-viva|Arraia|Cachorro|Gato|Burro|Pombo|Beija-flor|Joaninha|Libélula|Escorpião|Jaguatirica|Lobo-guará|Mico-leão-dourado|Boto-cor-de-rosa|Peixe-boi|Sucuri|Piranha|Cobra-coral|Suricato|Lêmure|Orangotango|Chimpanzé|Pantera-negra|Iguana|Dragão-de-komodo|Rã|Cisne|Avestruz|Pelicano|Gaivota|Cegonha|Urubu|João-de-barro|Bem-te-vi|Canário|Mariposa|Grilo|Cigarra|Centopeia|Lesma|Caracol|Minhoca|Narval|Morsa|Ornitorrinco|Wombat|Diabo-da-tasmânia|Tapir|Anta|Vaga-lume|Louva-a-deus|Escaravelho|Gafanhoto|Mosquito|Mosca|Tubarão-martelo|Baleia-jubarte|Peixe-voador|Cavalo-de-pau")},
- comidas:{name:"Comidas",icon:"fa-burger",c:["#ffb347","#ff6a5e"],words:W("Pizza|Hambúrguer|Sushi|Lasanha|Feijoada|Churrasco|Coxinha|Pastel|Brigadeiro|Pão de Queijo|Macarrão|Hot Dog|Batata Frita|Nuggets|Strogonoff|Salada|Taco|Burrito|Paella|Ramen|Temaki|Kibe|Esfiha|Picanha|Farofa|Moqueca|Acarajé|Pamonha|Curau|Bolo de Chocolate|Sorvete|Pudim|Mousse|Torta de Limão|Panqueca|Waffle|Panetone|Rocambole|Empada|Quiche|Ceviche|Nhoque|Risoto|Carpaccio|Bruschetta|Fondue|Croissant|Baguete|Donut|Brownie|Churros|Tapioca|Cuscuz|Açaí|Pipoca|Algodão-doce|Beijinho|Paçoca|Escondidinho|Maçã do Amor|Misto-quente|Tiramisu|Cheesecake|Almôndegas|Falafel|Kebab|Nachos|Guacamole|Quesadilla|Empanada|Polenta|Canja|Caldo Verde|Bobó de Camarão|Vatapá|Galinhada|Baião de Dois|Salpicão|Torresmo|Pão de Alho|Linguiça|Costelinha|Petit Gateau|Trufa|Pavlova|Dim Sum|Yakisoba|Gyoza|Pad Thai|Curry|Goulash|Moussaka|Tabule|Shawarma|Crepe|Macaron|Éclair|Cupcake|Pretzel|Bagel|Panini|Calzone|Pão Francês|Bolinho de Chuva|Quindim|Cocada|Pé de Moleque|Canjica|Tutu de Feijão|Pirão|Sanduíche Natural|Cachorro-quente|Omelete|Ovo Frito|Bife à Parmegiana|Frango Assado|Costela|Maminha|Fraldinha|Pão com Ovo|Mandioca Frita|Polvilho|Sonho|Rabanada|Maria-mole|Bala de Goma|Pirulito|Chiclete|Chocolate|Bombom|Sorvete de Casquinha|Milk-shake|Vitamina|Suco de Laranja|Água de Coco|Caipirinha|Café|Guaraná|Refrigerante|Limonada")},
- musicas:{name:"Músicas & Bandas",icon:"fa-music",c:["#a18cd1","#7a4dff"],words:W("Rock and Roll|Pop|Samba|Sertanejo|Funk|Pagode|Rap|Hip Hop|Reggae|Eletrônica|Jazz|Blues|Heavy Metal|Forró|Axé|Bossa Nova|MPB|Michael Jackson|Queen|The Beatles|Elvis Presley|Madonna|Bob Marley|Metallica|AC/DC|Guns N' Roses|Nirvana|Chorão (Charlie Brown Jr.)|Raul Seixas|Rita Lee|Caetano Veloso|Gilberto Gil|Ivete Sangalo|Anitta|Marília Mendonça|Gusttavo Lima|Alok|Tim Maia|Djavan|Roberto Carlos|Legião Urbana|Titãs|Skank|Jota Quest|Engenheiros do Hawaii|Capital Inicial|Racionais MC's|Luísa Sonza|Luan Santana|Wesley Safadão|Pabllo Vittar|Ludmilla|Thiaguinho|Zeca Pagodinho|Arlindo Cruz|Michel Teló|Ed Sheeran|Coldplay|Bruno Mars|Shakira|Cazuza|Jorge e Mateus|Henrique e Juliano|Natiruts|Pink Floyd|Led Zeppelin|Black Sabbath|Iron Maiden|Megadeth|Slayer|Pantera|Foo Fighters|Red Hot Chili Peppers|Green Day|Blink-182|The Strokes|Arctic Monkeys|Muse|Radiohead|U2|Bon Jovi|Aerosmith|Scorpions|Pearl Jam|Oasis|The Cure|Depeche Mode|David Bowie|Prince|Elton John|Stevie Wonder|Ray Charles|Frank Sinatra|Whitney Houston|Celine Dion|Mariah Carey|Adele|Taylor Swift|Justin Bieber|Ariana Grande|Dua Lipa|The Weeknd|Billie Eilish|Post Malone|Bad Bunny|Drake|Kendrick Lamar|Jay-Z|Kanye West|Travis Scott|Lady Gaga|Rihanna|Beyoncé|Katy Perry|Britney Spears|Backstreet Boys|NSYNC|Spice Girls|BTS|Blackpink|Abba|Bee Gees|Maroon 5|Imagine Dragons|Linkin Park|System of a Down|Rammstein|Kiss|The Rolling Stones|The Who|Eagles|Fleetwood Mac|Los Hermanos|Detonautas|Charlie Brown Jr.|O Rappa|Pitty|Ney Matogrosso|Maria Bethânia|Elis Regina|Chico Buarque|Jorge Ben Jor|Bezerra da Silva|Dorival Caymmi|Luiz Gonzaga|Paula Fernandes|Maiara e Maraisa|Simone e Simaria|Zé Neto e Cristiano|Matheus e Kauan|Léo Santana|Claudia Leitte|Joelma|Calcinha Preta|Banda Calypso|Mamonas Assassinas|Raimundos|Paralamas do Sucesso|Barão Vermelho|Ira!|Ultraje a Rigor|Biquini Cavadão|Kid Abelha|Cássia Eller")},
- famosos:{name:"Famosos",icon:"fa-star",c:["#ffd93d","#ff9f1c"],words:W("Neymar|Lionel Messi|Cristiano Ronaldo|Pelé|Ayrton Senna|Silvio Santos|Faustão|Jô Soares|Xuxa|Angélica|Luciano Huck|Rodrigo Faro|Celso Portiolli|Eliana|Casimiro|Gaules|Felipe Neto|Whindersson Nunes|Virginia Fonseca|Carlinhos Maia|Keanu Reeves|Tom Cruise|Brad Pitt|Leonardo DiCaprio|Angelina Jolie|Scarlett Johansson|Will Smith|Dwayne Johnson (The Rock)|Robert Downey Jr.|Chris Hemsworth|Tom Holland|Zendaya|Lady Gaga|Taylor Swift|Justin Bieber|Selena Gomez|Ariana Grande|Billie Eilish|Harry Styles|Beyoncé|Rihanna|Eminem|Snoop Dogg|Barack Obama|Elon Musk|Steve Jobs|Bill Gates|Mark Zuckerberg|Albert Einstein|Isaac Newton|Tom Hanks|Ronaldinho Gaúcho|Gustavo Kuerten|Rebeca Andrade|Fátima Bernardes|Tiago Leifert|Marina Ruy Barbosa|Rodrigo Hilbert|Michael Phelps|Vinícius Júnior|Rodrygo|Kylian Mbappé|Erling Haaland|Kevin De Bruyne|Stephen Curry|LeBron James|Michael Jordan|Kobe Bryant|Lewis Hamilton|Max Verstappen|Charles Leclerc|Fernando Alonso|Zico|Kaká|Cafu|Ronaldo Fenômeno|Romário|Bebeto|Marta|Zagallo|Tite|Ancelotti|Guardiola|Zinedine Zidane|David Beckham|Maradona|Garrincha|Usain Bolt|Simone Biles|Serena Williams|Rafael Nadal|Roger Federer|Novak Djokovic|Tiger Woods|Muhammad Ali|Mike Tyson|Anderson Silva|Gisele Bündchen|Ivete Sangalo|Fernanda Montenegro|Wagner Moura|Lázaro Ramos|Taís Araújo|Rodrigo Santoro|Alice Braga|Sônia Braga|Paulo Gustavo|Tatá Werneck|Fábio Porchat|Danilo Gentili|Marcelo Adnet|Thiago Ventura|Ratinho|Datena|Sílvio Luiz|Galvão Bueno|Cléber Machado|Tadeu Schmidt|Pedro Bial|Ana Maria Braga|Hebe Camargo|Gugu Liberato|Raul Gil|Chacrinha|Roberto Justus|Fausto Silva|Chico Anysio|Renato Aragão|Didi|Mussum|Zacarias|Dedé Santana|Margot Robbie|Ryan Gosling|Emma Watson|Daniel Radcliffe|Johnny Depp|Jim Carrey|Robin Williams|Morgan Freeman|Denzel Washington|Anne Hathaway|Jennifer Lawrence|Jennifer Aniston|Gal Gadot|Ryan Reynolds|Hugh Jackman|Chris Evans|Chris Pratt|Mark Ruffalo|Sandra Bullock|Julia Roberts|Meryl Streep|Marilyn Monroe|Charlie Chaplin|Walt Disney|Steven Spielberg|Quentin Tarantino|Papa Francisco|Rainha Elizabeth|Princesa Diana|Cleópatra|Napoleão|Dom Pedro I|Tiradentes|Santos Dumont|Marie Curie|Leonardo da Vinci|Michelangelo|Pablo Picasso|Van Gogh|Frida Kahlo|Tarsila do Amaral|Machado de Assis|Monteiro Lobato|Maurício de Sousa|Ziraldo")},
- filmes:{name:"Filmes",icon:"fa-film",c:["#667eea","#764ba2"],words:W("Titanic|Avatar|Vingadores: Ultimato|Star Wars|Harry Potter|Senhor dos Anéis|Jurassic Park|Matrix|Homem-Aranha|Batman|O Poderoso Chefão|Pulp Fiction|Forrest Gump|Clube da Luta|Interestelar|A Origem|Gladiador|Toy Story|O Rei Leão|Frozen|Shrek|Procurando Nemo|Os Incríveis|Divertida Mente|Up: Altas Aventuras|Wall-E|Minions|Moana|Carros|Pantera Negra|Homem de Ferro|Thor|Capitão América|Coringa|Barbie|Oppenheimer|Duna|Velozes e Furiosos|Piratas do Caribe|Indiana Jones|De Volta para o Futuro|Jurassic World|Esqueceram de Mim|Edward Mãos de Tesoura|Crepúsculo|Jogos Vorazes|Percy Jackson|As Branquelas|Todo Mundo em Pânico|A Freira|Invocação do Mal|O Exorcista|Aladdin|A Bela e a Fera|Cinderela|Branca de Neve|Rapunzel|Mulan|Madagascar|Kung Fu Panda|Ratatouille|Monstros S.A.|Encanto|Zootopia|Django Livre|Bastardos Inglórios|Kill Bill|Scarface|Curtindo a Vida Adoidado|Ghost|Dirty Dancing|Grease|Top Gun|Missão Impossível|007|John Wick|300|Troy|Coração Valente|O Resgate do Soldado Ryan|Mad Max|Blade Runner|O Exterminador do Futuro|Alien|Predador|Os Smurfs|A Era do Gelo|Hotel Transilvânia|Meu Malvado Favorito|Sing|Tubarão|E.T.|Os Goonies|Gremlins|Os Caça-Fantasmas|King Kong|Godzilla|Transformers|X-Men|Quarteto Fantástico|Deadpool|Guardiões da Galáxia|Doutor Estranho|Aquaman|Mulher-Maravilha|Superman|Liga da Justiça|Esquadrão Suicida|Cisne Negro|A Chegada|Parasita|Tropa de Elite|Cidade de Deus|Central do Brasil|Dona Flor e Seus Dois Maridos|O Auto da Compadecida|Se Eu Fosse Você|Minha Mãe É uma Peça|De Pernas pro Ar|Os Dez Mandamentos|Ben-Hur|Rocky|Rambo|Karate Kid|Matrix Reloaded|O Silêncio dos Inocentes|Psicose|Os Pássaros|Sexto Sentido|Garota Exemplar|Se7en|Beetlejuice|A Fantástica Fábrica de Chocolate|Alice no País das Maravilhas|Peter Pan|Pinóquio|Dumbo|Bambi|A Pequena Sereia|Pocahontas|Tarzan|Lilo & Stitch|Os 101 Dálmatas|A Dama e o Vagabundo|Mary Poppins|Mamma Mia!|La La Land|O Rei do Show|Bohemian Rhapsody")},
- desenhos:{name:"Desenhos & Animes",icon:"fa-tv",c:["#ff9a9e","#ff4d8d"],words:W("Dragon Ball Z|Naruto|One Piece|Pokémon|Os Simpsons|Bob Esponja|Tom e Jerry|Pernalonga|Mickey Mouse|Pato Donald|Scooby-Doo|Os Flintstones|Os Jetsons|Caverna do Dragão|Turma da Mônica|Chaves|Ben 10|Hora de Aventura|Apenas um Show|O Incrível Mundo de Gumball|Gravity Falls|Phineas e Ferb|Miraculous: Ladybug|Patrulha Canina|Peppa Pig|Masha e o Urso|Turma da Mônica Jovem|Death Note|Attack on Titan|Demon Slayer|Jujutsu Kaisen|My Hero Academia|Hunter x Hunter|Cavaleiros do Zodíaco|Yu-Gi-Oh!|Beyblade|Digimon|Sailor Moon|Sakura Card Captors|Avatar: A Lenda de Aang|As Meninas Superpoderosas|Laboratório de Dexter|Du, Dudu e Edu|Coragem, o Cão Covarde|A Vaca e o Frango|Johnny Bravo|Mutante Rex|Transformers|Thundercats|He-Man|She-Ra|Bluey|Pica-Pau|Tartarugas Ninja|Power Rangers|Snoopy|Chapolin|Pateta|Backyardigans|Ursinhos Carinhosos|Bleach|Fullmetal Alchemist|Chainsaw Man|Spy x Family|Mob Psycho 100|Dr. Stone|Tokyo Revengers|Black Clover|Blue Lock|Haikyuu!!|Slam Dunk|Bakugan|InuYasha|YuYu Hakusho|Evangelion|Cowboy Bebop|Berserk|Steins;Gate|Sakamoto Days|Dandadan|Solo Leveling|Pica-Pau e Seus Amigos|Tio Patinhas|Pateta e Seu Filho|Looney Tunes|Papa-Léguas|Frajola e Piu-Piu|Manda-Chuva|Space Ghost|Hong Kong Fu|Jackie Chan Aventuras|Os Padrinhos Mágicos|Rugrats|Hey Arnold!|As Aventuras de Jackie Chan|Dragon Ball|Pokémon Go|Super Mario Bros|Sonic|Kim Possible|Irmão do Jorel|Historietas Assombradas|Show da Luna|Galinha Pintadinha|Mundo Bita|Cocoricó|Castelo Rá-Tim-Bum|Sítio do Picapau Amarelo|Xou da Xuxa|Cocoricó|Pocoyo|Dora, a Aventureira|Backyardigans|Backyard Sports|Rick e Morty|South Park|Family Guy|Futurama|Archer|Bojack Horseman|Hora do Pesadelo|Gato de Botas|Madagascar|Kung Fu Panda|Os Pinguins de Madagascar|Ice Age|Rio|Moana|Valente|Enrolados|Tarzan|Aladdin|Hércules|Mulan")},
- esportes:{name:"Esportes",icon:"fa-futbol",c:["#38f9d7","#00b4db"],words:W("Futebol|Basquete|Vôlei|Tênis|Natação|Judô|Boxe|Surfe|Skate|Ciclismo|Corrida|Handebol|Rúgbi|Beisebol|Golfe|Esgrima|Ginástica|Balé|Ioga|Escalada|Remo|Triatlo|Maratona|Salto com Vara|Arco e Flecha|Hóquei|Futevôlei|Capoeira|Jiu-Jitsu|Fórmula 1|Pênalti|Escanteio|Drible|Cartão Vermelho|Medalha de Ouro|Copa do Mundo|Olimpíadas|Mergulho|Esqui|Patinação|Snowboard|Pingue-Pongue|Badminton|Xadrez|Gol de Placa|Cesta de Três|Saque|Impedimento|Vôlei de Praia|Futsal|Polo Aquático|Hóquei no Gelo|Curling|Críquete|Hipismo|Decatlo|Salto Ornamental|Tiro com Arco|MotoGP|Motocross|BMX|Kitesurf|Windsurf|Vela|Canoagem|Paraquedismo|Parkour|CrossFit|Halterofilismo|Sumô|Muay Thai|Taekwondo|Karatê|Arremesso de Peso|Lançamento de Dardo|Salto em Distância|Salto em Altura|100 Metros Rasos|Revezamento|Corrida de Obstáculos|Natação Sincronizada|Nado Borboleta|Nado Costas|Cobrança de Falta|Falta|Bola Fora|Tiro de Meta|Árbitro|Juiz de Linha|Bandeirinha|Torcida|Mascote|Hino Nacional|Pódio|Troféu|Taça|Camisa 10|Goleiro|Zagueiro|Lateral|Atacante|Centroavante|Meio-campista|Cobertura|Bola de Ouro|Chuteira|Luva de Goleiro|Cabeçada|Voleio|Bicicleta|Letra|Chapéu|Caneta|Pedalada|Rabona|Slam Dunk|Enterrada|Tocos|Rebote|Lance Livre|Ace|Smash|Set|Game|Match Point|Tie-break|Ippon|Nocaute|Round|Corner|Strike|Home Run|Hole in One|Hat-trick")},
- profissoes:{name:"Profissões",icon:"fa-briefcase",c:["#f6d365","#fda085"],words:W("Médico|Professor|Bombeiro|Policial|Piloto|Astronauta|Cozinheiro|Padeiro|Dentista|Veterinário|Jardineiro|Motorista|Carteiro|Mecânico|Pedreiro|Eletricista|Encanador|Advogado|Juiz|Cantor|Ator|Palhaço|Mágico|Fotógrafo|Jornalista|Youtuber|Programador|Cientista|Engenheiro|Arquiteto|Pintor|Costureira|Cabeleireiro|Garçom|Pescador|Fazendeiro|Salva-vidas|Detetive|Bailarino|Marinheiro|Soldado|Bibliotecário|Enfermeiro|Personal Trainer|Maquiador|DJ|Dublador|Influencer|Gari|Psicólogo|Nutricionista|Fisioterapeuta|Farmacêutico|Biólogo|Químico|Astrônomo|Economista|Contador|Secretário|Recepcionista|Florista|Confeiteiro|Barista|Sommelier|Manicure|Massagista|Tatuador|Serralheiro|Marceneiro|Sapateiro|Alfaiate|Açougueiro|Borracheiro|Controlador de Voo|Meteorologista|Arqueólogo|Historiador|Filósofo|Tradutor|Guia Turístico|Corretor de Imóveis|Bancário|Designer Gráfico|Editor de Vídeo|Locutor|Roteirista|Diretor de Cinema|Produtor Musical|Padre|Pastor|Freira|Faxineiro|Porteiro|Segurança|Vigia|Frentista|Caixa de Supermercado|Vendedor|Padeiro|Entregador|Motoboy|Taxista|Caminhoneiro|Maquinista|Comissário de Bordo|Capitão do Navio|Pirata|Cowboy|Vaqueiro|Lenhador|Ferreiro|Oleiro|Escultor|Ilustrador|Cartunista|Escritor|Poeta|Cantor de Ópera|Maestro|Violinista|Pianista|Guitarrista|Baterista|Atleta|Técnico de Futebol|Árbitro|Narrador|Comentarista|Apresentador|Repórter|Âncora de Jornal|Chef de Cozinha|Sushiman|Pizzaiolo|Churrasqueiro|Bartender|Cervejeiro|Viticultor|Apicultor|Pecuarista|Biomédico|Cirurgião|Anestesista|Pediatra|Dermatologista|Cardiologista|Ortopedista|Oftalmologista|Parteira|Paramédico|Socorrista|Perito|Delegado|Promotor|Defensor Público|Político|Prefeito|Presidente|Diplomata|Embaixador|Espião|Mágico de Rua|Mímico|Equilibrista|Domador de Leões|Trapezista|Dublê|Figurinista|Cenógrafo|Maquinista de Teatro")},
- lugares:{name:"Lugares Famosos",icon:"fa-earth-americas",c:["#4facfe","#00c2a8"],words:W("Cristo Redentor|Pão de Açúcar|Copacabana|Maracanã|Cataratas do Iguaçu|Amazônia|Fernando de Noronha|Lençóis Maranhenses|Pelourinho|Avenida Paulista|Parque Ibirapuera|Congresso Nacional|Teatro Amazonas|Pantanal|Gramado|Beto Carrero World|Jalapão|Chapada Diamantina|Bonito|Arpoador|Ipanema|Escadaria Selarón|Torre Eiffel|Arco do Triunfo|Museu do Louvre|Notre-Dame|Palácio de Versalhes|Mont Saint-Michel|Coliseu|Vaticano|Basílica de São Pedro|Fontana di Trevi|Torre de Pisa|Canais de Veneza|Duomo de Milão|Sagrada Família|Alhambra|Big Ben|Torre de Londres|Palácio de Buckingham|Stonehenge|London Eye|Portão de Brandemburgo|Muro de Berlim|Castelo de Neuschwanstein|Moinhos da Holanda|Casa de Anne Frank|Acrópole de Atenas|Partenon|Santorini|Hagia Sophia|Capadócia|Kremlin|Praça Vermelha|Pirâmides do Egito|Esfinge|Vale dos Reis|Petra|Burj Khalifa|Taj Mahal|Templo Dourado|Muralha da China|Cidade Proibida|Guerreiros de Terracota|Monte Fuji|Shibuya Crossing|Torre de Tóquio|Templo de Kyoto|Angkor Wat|Baía de Ha Long|Marina Bay Sands|Ilhas Maldivas|Bora Bora|Grande Barreira de Corais|Ópera de Sydney|Uluru|Estátua da Liberdade|Times Square|Central Park|Empire State|Ponte do Brooklyn|Hollywood|Calçada da Fama|Las Vegas|Golden Gate|Alcatraz|Grand Canyon|Cataratas do Niágara|Disney World|Universal Studios|Monte Rushmore|Casa Branca|Parque de Yellowstone|Machu Picchu|Salar de Uyuni|Ilha de Páscoa|Galápagos|Patagônia|Cristo de Cochabamba|Chichén Itzá|Cancún|Havana|Canal do Panamá|Torre CN|Lago Louise|Aurora Boreal|Fiordes Noruegueses|Cabo da Boa Esperança|Monte Kilimanjaro|Serengeti|Cataratas Vitória|Sahara|Mar Morto|Monte Everest|Antártida|Polo Norte|Triângulo das Bermudas|Atlântida|Torre Eiffel de Las Vegas|Ponte da Amizade|Ponte Rio-Niterói|Ponte Estaiada|Estádio do Pacaembu|Mineirão|Jardim Botânico|Floresta da Tijuca|Cristo de Lisboa|Torre de Belém|Mosteiro dos Jerónimos|Sintra|Porto|Costa Amalfitana|Capri|Pompeia|Vesúvio|Etna|Lago Como|Alpes Suíços|Matterhorn|Interlaken|Praga|Ponte Carlos|Castelo de Praga|Budapeste|Parlamento de Budapeste|Palácio de Schönbrunn|Mozarteum|Salzburgo|Bruges|Grand Place de Bruxelas|Manneken Pis|Edimburgo|Lago Ness|Penhascos de Moher|Giant's Causeway|Blue Lagoon|Gêiser Strokkur|Vulcão Eyjafjallajökull")},
- ciencias:{name:"Ciências",icon:"fa-atom",c:["#00c2ff","#7a4dff"],words:W("Teorema de Pitágoras|Equação de Schrödinger|E=mc²|Lei da Gravidade|Leis de Newton|Teoria da Relatividade|Mecânica Quântica|DNA|Fotossíntese|Evolução das Espécies|Seleção Natural|Tabela Periódica|Átomo|Elétron|Próton|Nêutron|Fissão Nuclear|Fusão Nuclear|Termodinâmica|Entropia|Eletromagnetismo|Princípio de Arquimedes|Lei de Ohm|Efeito Doppler|Efeito Estufa|Big Bang|Buraco Negro|Matéria Escura|Energia Escura|Velocidade da Luz|Constante de Planck|Número de Avogadro|Derivada|Integral|Número Pi|Geometria|Teoria dos Jogos|Mitocôndria|Ribossomo|Osmose|Clorofila|Enzima|Nanotecnologia|Reação Química|Catalisador|Isótopo|Radioatividade|Fóton|Quasar|Pulsar|Supernova|Nebulosa|Deriva Continental|Ciclo da Água|Camada de Ozônio|Ecossistema|Biodiversidade|Genética|Mutação|Clonagem|Célula-tronco|Neurônio|Sinapse|Hormônio|Insulina|Adrenalina|Dopamina|Serotonina|Sistema Solar|Via Láctea|Galáxia|Cometa|Asteroide|Meteoro|Eclipse Solar|Eclipse Lunar|Lua Cheia|Marte|Júpiter|Saturno|Vênus|Mercúrio|Netuno|Urano|Plutão|Telescópio|Microscópio|Termômetro|Barômetro|Bússola|Pêndulo|Alavanca|Polia|Plano Inclinado|Vulcão|Terremoto|Tsunami|Furacão|Tornado|Raio|Trovão|Arco-íris|Aurora Boreal|Ímã|Eletricidade|Bateria|Circuito|Lâmpada|Laser|Raio-X|Ultrassom|Vacina|Antibiótico|Vírus|Bactéria|Fungo|Célula|Cromossomo|Proteína|Vitamina|Fóssil|Dinossauro|Mamute|Homem das Cavernas|Inteligência Artificial|Robô|Computador|Internet|Satélite|Foguete|Estação Espacial|Sonda Espacial|Vácuo|Gravidade Zero|Ondas Sonoras|Eco|Espectro de Luz|Prisma|Lente|Espelho Côncavo|Fricção|Inércia|Energia Solar|Energia Eólica|Hidrelétrica|Biocombustível|Reciclagem|Aquecimento Global|Placas Tectônicas|Camadas da Terra|Núcleo da Terra|Atmosfera|Estratosfera|Efeito Borboleta|Gato de Schrödinger|Paradoxo dos Gêmeos|Máquina do Tempo|Wormhole")},
- games:{name:"Games",icon:"fa-gamepad",c:["#a770ef","#00c2ff"],words:W("Minecraft|Fortnite|Free Fire|Roblox|Mario|Sonic|Zelda|Pac-Man|Tetris|Pokémon Go|Among Us|FIFA|GTA|Call of Duty|League of Legends|Counter-Strike|Valorant|The Sims|Angry Birds|Candy Crush|Subway Surfers|Clash Royale|Brawl Stars|Super Smash Bros|Street Fighter|Mortal Kombat|Donkey Kong|Kirby|Pikachu|Link|Luigi|Bowser|Yoshi|Princesa Peach|Crash Bandicoot|Fall Guys|Overwatch|Rocket League|Mario Kart|Animal Crossing|Just Dance|Wii Sports|PlayStation|Xbox|Nintendo Switch|Game Boy|Fliperama|God of War|The Witcher|Elden Ring|Cyberpunk 2077|Resident Evil|Silent Hill|Metal Gear Solid|Final Fantasy|Kingdom Hearts|Dark Souls|Monster Hunter|Dragon Quest|Stardew Valley|Terraria|Hollow Knight|Celeste|Undertale|Cuphead|Dota 2|Portal|Half-Life|Genshin Impact|Clash of Clans|PUBG|Apex Legends|Halo|Gears of War|Forza Horizon|Gran Turismo|Need for Speed|NBA 2K|Tony Hawk's Pro Skater|Pong|Space Invaders|Asteroids|Frogger|Donkey Kong Country|Metroid|Mega Man|Castlevania|Contra|Streets of Rage|Altered Beast|Golden Axe|Duck Hunt|Super Mario World|Mario 64|Ocarina of Time|GoldenEye|Banjo-Kazooie|Spyro|Rayman|Lara Croft|Tomb Raider|Uncharted|The Last of Us|Red Dead Redemption|Assassin's Creed|Far Cry|Battlefield|Doom|Quake|Wolfenstein|Bioshock|Skyrim|Fallout|Mass Effect|Diablo|World of Warcraft|StarCraft|Warcraft|Age of Empires|Civilization|Hearthstone|Pokémon Unite|Mobile Legends|Wild Rift|Garena|Plants vs. Zombies|Cut the Rope|Fruit Ninja|Temple Run|Flappy Bird|Crossy Road|Geometry Dash|Stumble Guys|Slither.io|Agar.io|Wordle|Jogo da Velha|Dominó|Xadrez|Damas|Uno|Banco Imobiliário|Detetive|War|Imagem e Ação|Jogo da Vida|Cara a Cara")},
- objetos:{name:"Objetos da Casa",icon:"fa-couch",c:["#fbc2eb","#a6c1ee"],words:W("Geladeira|Fogão|Micro-ondas|Sofá|Cama|Travesseiro|Cobertor|Chuveiro|Vaso Sanitário|Pia|Espelho|Guarda-roupa|Televisão|Controle Remoto|Ventilador|Ar-condicionado|Liquidificador|Batedeira|Panela de Pressão|Frigideira|Garfo|Colher|Faca|Prato|Copo|Xícara|Garrafa Térmica|Vassoura|Rodo|Balde|Aspirador de Pó|Ferro de Passar|Máquina de Lavar|Varal|Cabide|Escova de Dentes|Pente|Secador de Cabelo|Chinelo|Guarda-chuva|Relógio|Despertador|Abajur|Lustre|Tapete|Cortina|Chave|Cadeado|Escada|Torradeira|Cafeteira|Sanduicheira|Espremedor|Air Fryer|Forno Elétrico|Lava-louças|Purificador de Água|Bebedouro|Tábua de Passar|Escova de Cabelo|Prancha de Cabelo|Barbeador|Cortador de Unha|Cotonete|Papel Higiênico|Toalha de Banho|Saboneteira|Lixeira|Sapateira|Criado-mudo|Poltrona|Puf|Mesa de Centro|Mesa de Jantar|Cadeira|Estante|Rack|Persiana|Almofada|Manta|Edredom|Lençol|Fronha|Colchão|Beliche|Berço|Cômoda|Penteadeira|Banheira|Bidê|Ralo|Torneira|Registro|Mangueira|Regador|Cortador de Grama|Churrasqueira|Rede|Cadeira de Praia|Ombrelone|Piscina|Escorregador|Balanço|Gangorra|Bola|Boneca|Carrinho|Quebra-cabeça|Lego|Ursinho de Pelúcia|Mochila|Lancheira|Estojo|Caderno|Lápis|Caneta|Borracha|Régua|Tesoura|Cola|Grampeador|Calculadora|Livro|Revista|Jornal|Quadro|Vaso de Planta|Porta-retrato|Calendário|Telefone|Celular|Carregador|Fone de Ouvido|Notebook|Mouse|Teclado|Impressora|Roteador|Câmera|Rádio|Caixa de Som|Violão|Piano|Microfone|Videogame|Óculos|Chapéu|Boné|Sapato|Tênis|Meia|Cinto|Gravata|Carteira|Bolsa|Mala|Anel|Colar|Pulseira|Brinco|Perfume|Batom|Esmalte|Sabonete|Shampoo|Condicionador|Pasta de Dente|Fio Dental|Desodorante|Protetor Solar|Lanterna|Vela|Fósforo|Isqueiro|Panela|Escumadeira|Concha|Ralador|Descascador|Abridor de Latas|Saca-rolhas|Tábua de Corte|Peneira|Funil|Rolo de Macarrão|Forma de Bolo|Pote|Marmita|Jarra|Taça|Prato Fundo|Bandeja|Guardanapo|Toalha de Mesa|Pano de Prato|Esponja|Detergente|Sabão em Pó|Amaciante|Água Sanitária|Desinfetante|Pá de Lixo|Saco de Lixo|Extensão|Tomada|Interruptor|Lâmpada LED|Campainha|Maçaneta|Fechadura|Porta|Janela|Cerca|Portão|Interfone|Caixa de Correio|Capacho")},
- acoes:{name:"Mímica (Ações)",icon:"fa-person-running",c:["#ff9966","#ff5e62"],words:W("Dançar|Pular|Correr|Nadar|Dormir|Chorar|Rir|Cantar|Escovar os Dentes|Tomar Banho|Cozinhar|Dirigir|Pescar|Escalar|Tirar Selfie|Jogar Bola|Andar de Bicicleta|Tocar Violão|Falar ao Telefone|Beber Água|Espirrar|Bocejar|Voar|Fazer Careta|Abraçar|Aplaudir|Dar Tchau|Pentear o Cabelo|Passar Maquiagem|Varrer a Casa|Lavar Louça|Regar Plantas|Soprar Vela|Abrir Presente|Pintar a Parede|Remar|Surfar|Patinar|Fazer Flexão|Levantar Peso|Tropeçar|Dar Cambalhota|Tomar Sorvete|Esquiar|Plantar Bananeira|Fazer Pipoca|Lavar o Rosto|Amarrar o Tênis|Trocar de Roupa|Passar Perfume|Cortar o Cabelo|Estalar os Dedos|Piscar o Olho|Assobiar|Gritar|Sussurrar|Engatinhar|Cair da Cadeira|Bater na Porta|Tocar Piano|Tocar Bateria|Tocar Flauta|Tocar Violino|Dirigir Caminhão|Pilotar Avião|Andar de Patinete|Andar de Skate|Jogar Boliche|Jogar Tênis|Jogar Basquete|Jogar Golfe|Jogar Vôlei|Fazer Gol|Escorregar na Casca de Banana|Comer Melancia|Chupar Picolé|Mascar Chiclete|Fazer Bolha de Chiclete|Engolir Remédio|Medir a Febre|Tomar Injeção|Passar Roupa|Fazer a Cama|Cortar Cebola|Quebrar um Ovo|Bater um Bolo|Abrir uma Lata|Servir um Café|Tomar Sopa|Comer Macarrão|Comer Espaguete|Morder um Limão|Tomar Chá|Fumar Cachimbo|Soprar Bolha de Sabão|Empinar Pipa|Jogar Peteca|Pular Corda|Brincar de Pique-esconde|Jogar Dardos|Jogar Cartas|Jogar Xadrez|Jogar Videogame|Digitar no Computador|Mandar Beijo|Dar um Tapa|Dar um Soco|Chutar|Empurrar|Puxar a Corda|Carregar Peso|Levantar da Cama|Acordar com o Despertador|Andar de Cavalo|Andar de Camelo|Andar de Elefante|Andar de Moto|Andar de Patins|Andar na Corda Bamba|Andar como Robô|Andar como Zumbi|Andar como Pato|Imitar um Macaco|Imitar um Leão|Imitar uma Galinha|Imitar um Cachorro|Imitar um Gato|Imitar um Pássaro|Imitar um Peixe|Imitar um Cavalo|Imitar um Elefante|Imitar um Pinguim|Imitar um Canguru|Imitar um Gorila|Dar Mortal|Plantar uma Árvore|Cavar um Buraco|Pescar Peixe|Cortar Lenha|Montar Barraca|Fazer Fogueira|Fugir do Urso|Tomar Banho de Chuva|Esperar o Ônibus|Atravessar a Rua|Fazer Fila|Pegar Táxi|Carregar a Mala|Fazer Check-in|Tirar Foto|Gravar Vídeo|Fazer Live|Dar Entrevista|Cortar Fita|Cortar o Bolo|Cantar Parabéns|Brindar|Beijar a Mão|Fazer Reverência|Rezar|Meditar|Fazer Yoga|Fazer Alongamento|Fazer Abdominal|Pular Elástico|Fazer Parada de Mão|Fazer Estrela|Dar Cartwheel|Fazer Moonwalk|Dançar Funk|Dançar Samba|Dançar Forró|Dançar Valsa|Dançar Break")}
-};
-Object.values(themes).forEach(t=>{const seen=new Set();t.words=t.words.filter(w=>{const k=w.toLowerCase();if(seen.has(k))return false;seen.add(k);return true})});
-themes.misto={name:"Misto (tudo!)",icon:"fa-shuffle",c:["#ff4d8d","#ffc933"],words:[...new Set(Object.values(themes).flatMap(t=>t.words))]};
+ ds1:{name:"Dark Souls 1",icon:"fa-fire",c:["#8b5a2b","#3d2314"],words:W("Gwyn, Lord of Cinder|Artorias the Abysswalker|Ornstein the Dragonslayer|Smough the Executioner|Manus, Father of the Abyss|Sif, Great Grey Wolf|Chosen Undead|Solaire of Astora|Gwynevere|Gwyndolin|Sieglinde of Catarina|Siegmeyer of Catarina|Patches|Big Hat Logan|Iron Golem|Anor Londo|Firelink Shrine|Undead Burg|Blighttown|Sen's Fortress|The Kiln of the First Flame|Artorias' Greatsword|Zweihander|Lightning Spear|Estus Flask|Humanity|Four Kings|Bed of Chaos|Seath the Scaleless|Bell Gargoyles|Capra Demon|Gaping Dragon|Gravelord Nito|Crossbreed Priscilla|Smough's Hammer|Ornstein's Spear|Grass Crest Shield|Havel's Armor|Ring of Favor and Protection")},
+ ds2:{name:"Dark Souls 2",icon:"fa-crown",c:["#5c5243","#24201a"],words:W("Nashandra, Queen of Want|Looking Glass Knight|Old Iron King|Vendrick|Velstadt, the Royal Aegis|Sir Alonne|Fume Knight|Sinh, the Slumbering Dragon|Elana, Squalid Queen|Burnt Ivory King|Bearer of the Curse|Emerald Herald (Shanalotte)|Lucatiel of Mirrah|Benhart of Jugo|Maughlin the Armorer|Majula|Forest of Fallen Giants|Drangleic Castle|Shrine of Amana|Iron Keep|Cursed Undead Bone|Human Effigy|Fume Ultra Greatsword|Alonne Greatsword|Ring of Blades|Soul Vessel|Bonfire Ascetic")},
+ ds3:{name:"Dark Souls 3",icon:"fa-skull",c:["#4a1c1c","#1a0808"],words:W("Soul of Cinder|Slave Knight Gael|Sister Friede|Darkeater Midir|Abyss Watchers|Yhorm the Giant|Aldrich, Devourer of Gods|Dancer of the Boreal Valley|Pontiff Sulyvahn|Nameless King|Ashen One|Firekeeper|Hawkwood|Greirat of the Undead Settlement|Irithyll of the Boreal Valley|Grand Archives|Cathedral of the Deep|Farron Greatsword|Moonlight Greatsword|Astora Greatsword|Twin Princes Lothric & Lorian|Deacons of the Deep|High Lord Wolnir|Oceiros, the Consumed King|Champion Gundyr|Ancient Wyvern")},
+ bloodborne:{name:"Bloodborne",icon:"fa-moon",c:["#3a1a4a","#13081c"],words:W("Gehrman, the First Hunter|Orphan of Kos|Lady Maria of the Astral Clocktower|Ludwig, the Holy Blade|Father Gascoigne|Cleric Beast|Vicar Amelia|Micolash, Host of the Nightmare|Mergo's Wet Nurse|Ebrietas, Daughter of the Cosmos|The Hunter|The Doll|Messengers|Central Yharnam|Cathedral Ward|Yahar'gul, Unseen Village|Cainhurst Castle|Nightmare of Mensis|Ludwig's Holy Blade|Burial Blade|Chikage|Gatling Gun|Hunter Rifle|Blood Vial|Insight|Frenzy")},
+ eldenring:{name:"Elden Ring",icon:"fa-ring",c:["#c5a880","#3d3323"],words:W("Malenia, Blade of Miquella|Starscourge Radahn|Godfrey, First Elden Lord|Radagon of the Golden Order|Elden Beast|Maliketh, the Black Blade|Morgott, the Omen King|Mohg, Lord of Blood|Rykard, Lord of Blasphemy|Rennala, Queen of the Full Moon|Godrick the Grafted|Godwyn the Golden|Ranni the Witch|The Tarnished|Melina|Blaidd the Half-Wolf|Iron Fist Alexander|Margit, the Fell Omen|Dragonlord Placidusax|Limgrave|Caelid|Altus Plateau|Leyndell, Royal Capital|Crumbling Farum Azula|Miquella's Haligtree|Siofra River|Rivers of Blood|Moonveil|Blasphemous Blade|Greatsword|Mimic Tear Ashes|Torrent")},
+ demons:{name:"Demon's Souls",icon:"fa-ghost",c:["#2b4a5c","#0f1a20"],words:W("King Allant|Maiden Astraea|Garl Vinland|Flamelurker|Tower Knight|Phalanx|Adjudicator|The Old Monk|Biorr of the Twin Fangs|Ostrava of Boletaria|Thomas the Stockpile|The Monumental|The Nexus|Boletaria|Palace of Boletaria|Shrine of Storms|Valley of Defilement|Tower of Latria|Grey Demon's Soul|Moonlight Greatsword|Soul Form|Body Form|Cling Ring|Hardstone")},
+ mixtao:{name:"Mixed (All Realms)",icon:"fa-dungeon",c:["#6b1c1c","#171717"],words:[...new Set(Object.values({
+  ds1:W("Gwyn|Artorias|Ornstein|Smough|Manus|Sif|Chosen Undead|Solaire|Anor Londo|Firelink Shrine|Zweihander|Estus Flask"),
+  ds2:W("Nashandra|Velstadt|Sir Alonne|Fume Knight|Majula|Drangleic|Bearer of the Curse"),
+  ds3:W("Gael|Friede|Midir|Abyss Watchers|Yhorm|Aldrich|Ashen One|Firekeeper|Irithyll"),
+  bloodborne:W("Gehrman|Maria|Ludwig|Gascoigne|Yharnam|Doll|Hunter|Insight|Blood Vial"),
+  eldenring:W("Malenia|Radahn|Godfrey|Radagon|Maliketh|Ranni|Tarnished|Melina|Torrent|Rivers of Blood"),
+  demons:W("Allant|Astraea|Flamelurker|Nexus|Boletaria|Soul Form")
+ }).flatMap(t=>t.words))]}};
 
-let selectedTheme='animais',gameTime=60,currentWords=[],currentIndex=0,scoreCorrect=0,scoreSkipped=0,streak=0,
+Object.values(themes).forEach(t=>{const seen=new Set();t.words=t.words.filter(w=>{const k=w.toLowerCase();if(seen.has(k))return false;seen.add(k);return true})});
+
+// CORREÇÃO: alterado o tema padrão inicial de 'animais' para 'ds1' que existe na lista
+let selectedTheme='ds1',gameTime=60,currentWords=[],currentIndex=0,scoreCorrect=0,scoreSkipped=0,streak=0,
  wordHistoryList=[],timerInterval=null,countdownTimeout=null,endTime=0,timeLeft=60,
  isPlaying=false,isCounting=false,lastAction=0,lastShownWord=null;
 
 function loadPrefs(){try{
- const t=localStorage.getItem('ggpt_theme'),s=parseInt(localStorage.getItem('ggpt_time'),10);
+ const t=localStorage.getItem('souls_theme_en'),s=parseInt(localStorage.getItem('souls_time_en'),10);
  if(t&&themes[t])selectedTheme=t;if([30,60,90,120].includes(s))gameTime=s;
- if(localStorage.getItem('ggpt_sound')==='0')soundOn=false;
- if(localStorage.getItem('ggpt_tilt')==='0')tiltOn=false;
- if(localStorage.getItem('ggpt_touch')==='0')touchOn=false;
+ if(localStorage.getItem('souls_sound_en')==='0')soundOn=false;
+ if(localStorage.getItem('souls_tilt_en')==='0')tiltOn=false;
+ if(localStorage.getItem('souls_touch_en')==='0')touchOn=false;
 }catch(e){}}
-function savePrefs(){try{localStorage.setItem('ggpt_theme',selectedTheme);localStorage.setItem('ggpt_time',String(gameTime))}catch(e){}}
-
-function addBubbles(el){
- const em=['🎈','⭐','✨','🎉','🍭','💫','🎵'];
- for(let i=0;i<9;i++){
-  const s=document.createElement('span');s.className='bub';s.textContent=em[i%em.length];
-  s.style.left=(Math.random()*94)+'%';s.style.fontSize=(18+Math.random()*22)+'px';
-  s.style.animationDuration=(11+Math.random()*10)+'s';s.style.animationDelay=(-Math.random()*14)+'s';
-  el.prepend(s);
- }
-}
+function savePrefs(){try{localStorage.setItem('souls_theme_en',selectedTheme);localStorage.setItem('souls_time_en',String(gameTime))}catch(e){}}
 
 function initThemes(){
- const box=$('themes-container');box.innerHTML='';
+ const box=$('themes-container');
+ if(!box) return;
+ box.innerHTML='';
  for(const [key,t] of Object.entries(themes)){
   const b=document.createElement('button');
   b.className='card tile'+(key===selectedTheme?' sel':'');
+  b.type='button';
   b.onclick=()=>{selectedTheme=key;savePrefs();playSound('click');initThemes()};
   const ico=document.createElement('div');ico.className='ico';
   ico.style.background=`linear-gradient(135deg,${t.c[0]},${t.c[1]})`;
   ico.innerHTML=`<i class="fa-solid ${t.icon}"></i>`;
   const txt=document.createElement('div');
   const n=document.createElement('b');n.textContent=t.name;
-  const s=document.createElement('small');s.textContent=t.words.length+' palavras';
+  const s=document.createElement('small');s.textContent=t.words.length+' relics';
   txt.append(n,s);b.append(ico,txt);box.appendChild(b);
  }
  const sel=box.querySelector('.sel');if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:'nearest'});
@@ -456,12 +392,11 @@ function setTime(sec){
  document.querySelectorAll('.time-btn').forEach(b=>b.classList.toggle('sel',parseInt(b.dataset.time,10)===sec));
 }
 function shuffleArray(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
-function setBg(el){const c=themes[selectedTheme].c;el.style.background=`linear-gradient(160deg,${c[0]},${c[1]})`}
+function setBg(el){const c=themes[selectedTheme].c;el.style.background=`radial-gradient(circle at center, ${c[0]} 0%, #080706 85%)`}
 
 async function startCountdown(){
  if(isCounting||isPlaying)return;
  isCounting=true;
- 
  initAudio();
  playSound('click');
 
@@ -469,19 +404,17 @@ async function startCountdown(){
  const hint=$('hint');
  
  let infoText='';
- if(tiltOn&&touchOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Giroscópio (inclinar) ou Swipe ↓/↑ ativos';
- else if(tiltOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Incline para baixo (acertar) ou cima (pular)';
- else if(touchOn)infoText='<i class="fa-solid fa-hand-pointer"></i> Deslize ou toque para acertar / pular';
- else infoText='<i class="fa-solid fa-triangle-exclamation"></i> Nenhum controle ativado! Use os botões da tela.';
+ if(tiltOn&&touchOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Gyroscope or Swipe ↓/↑ active';
+ else if(tiltOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Tilt down (Victory) or up (Dodge)';
+ else if(touchOn)infoText='<i class="fa-solid fa-hand-pointer"></i> Swipe or tap to Victory / Dodge';
+ else infoText='<i class="fa-solid fa-triangle-exclamation"></i> No controls active! Use screen buttons.';
  
  hint.innerHTML=infoText;
 
  if(tiltOn){
   const ok=await enableTilt();
   tiltActive=ok;
-  if(!ok&&tiltOn){
-   hint.innerHTML+='<br><small style="color:#d9534f">Giroscópio negado/indisponível. Usando apenas botões/toque.</small>';
-  }
+  if(!ok&&tiltOn){hint.innerHTML+='<br><small style="color:#d32f2f">Gyro unavailable. Using touch/buttons.</small>';}
  }
 
  currentWords=shuffleArray(themes[selectedTheme].words);
@@ -493,7 +426,7 @@ async function startCountdown(){
  const step=()=>{
   count--;
   if(count>0){num.innerText=count;playSound('beep');vibrate(30)}
-  else if(count===0){num.innerText='JÁ!';playSound('start');vibrate([60,40,60])}
+  else if(count===0){num.innerText='LUCTUS!';playSound('start');vibrate([80,40,80])}
   else{cs.classList.add('hidden');isCounting=false;startGame();return}
   countdownTimeout=setTimeout(step,1000);
  };
@@ -526,24 +459,14 @@ function showNextWord(kind){
  const el=$('word-display');el.textContent=lastShownWord;
  el.classList.remove('in-ok','in-skip');void el.offsetWidth;el.classList.add(kind==='skip'?'in-skip':'in-ok');
 }
-function canAct(){
- if(!isPlaying)return false;
- const n=Date.now();if(n-lastAction<350)return false;
- lastAction=n;return true;
-}
-function flash(color){
- const f=$('flash');f.style.background=color;f.style.opacity='.6';
- setTimeout(()=>{f.style.opacity='0'},170);
-}
-function feedback(text,color){
- const f=$('fb');f.textContent=text;f.style.color=color;
- f.classList.remove('show');void f.offsetWidth;f.classList.add('show');
-}
+function canAct(){if(!isPlaying)return false;const n=Date.now();if(n-lastAction<350)return false;lastAction=n;return true}
+function flash(color){const f=$('flash');f.style.background=color;f.style.opacity='.5';setTimeout(()=>{f.style.opacity='0'},170)}
+function feedback(text,color){const f=$('fb');f.textContent=text;f.style.color=color;f.classList.remove('show');void f.offsetWidth;f.classList.add('show')}
 function burst(emojis){
- for(let i=0;i<12;i++){
+ for(let i=0;i<10;i++){
   const p=document.createElement('span');p.className='part';p.textContent=emojis[i%emojis.length];
-  const a=Math.random()*Math.PI*2,d=90+Math.random()*130;
-  p.style.left='50%';p.style.top='45%';p.style.fontSize=(16+Math.random()*16)+'px';
+  const a=Math.random()*Math.PI*2,d=80+Math.random()*110;
+  p.style.left='50%';p.style.top='45%';p.style.fontSize=(16+Math.random()*14)+'px';
   p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');
   document.body.appendChild(p);setTimeout(()=>p.remove(),800);
  }
@@ -554,30 +477,23 @@ function handleCorrect(){
  wordHistoryList.push({word:currentWords[currentIndex],status:'correct'});
  $('live-score').innerText=scoreCorrect;
  const sb=$('score-box');sb.classList.remove('bump');void sb.offsetWidth;sb.classList.add('bump');
- flash('#12b886');vibrate(40);
- if(streak>=3&&streak%3===0){playSound('combo');feedback('🔥 Sequência x'+streak+'!','#fff176');burst(['🔥','⭐','✨'])}
- else{playSound('correct');feedback('✔ Acertou!','#b9f6ca');burst(['⭐','✨','🎉'])}
+ flash('#1c4a2a');vibrate(40);
+ if(streak>=3&&streak%3===0){playSound('combo');feedback('🔥 Souls Echo x'+streak+'!','#f3e5ab');burst(['🔥','✨','⚔️'])}
+ else{playSound('correct');feedback('✔ Victory!','#9fe0b5');burst(['✨','⚔️'])}
  currentIndex++;showNextWord('ok');
 }
-function handleCorrectClick(){
- if(touchOn) handleCorrect();
-}
+function handleCorrectClick(){if(touchOn)handleCorrect()}
 function handleSkip(){
  if(!canAct())return;
  playSound('skip');scoreSkipped++;streak=0;
  wordHistoryList.push({word:currentWords[currentIndex],status:'skipped'});
- flash('#ff3b5c');vibrate([30,30,30]);feedback('⏭ Pulou','#ffd180');
+ flash('#4a1c1c');vibrate([30,30,30]);feedback('⏭ Dodged','#e09f9f');
  const g=$('game-screen');g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');
  currentIndex++;showNextWord('skip');
 }
 
 let tY=0,tX=0;
-window.addEventListener('touchstart',e=>{
- if(!isPlaying||!touchOn)return;
- tY=e.changedTouches[0].screenY;
- tX=e.changedTouches[0].screenX;
-},{passive:true});
-
+window.addEventListener('touchstart',e=>{if(!isPlaying||!touchOn)return;tY=e.changedTouches[0].screenY;tX=e.changedTouches[0].screenX},{passive:true});
 window.addEventListener('touchend',e=>{
  if(!isPlaying||!touchOn)return;
  const dy=e.changedTouches[0].screenY-tY,dx=e.changedTouches[0].screenX-tX;
@@ -587,10 +503,10 @@ window.addEventListener('touchend',e=>{
 },{passive:true});
 
 function confetti(){
- const em=['🎉','⭐','🎈','✨','🍭','🎊'];
- for(let i=0;i<30;i++){
+ const em=['🔥','⚔️','✨','💀','🩸','🛡️'];
+ for(let i=0;i<24;i++){
   const s=document.createElement('span');s.className='confetti';s.textContent=em[i%em.length];
-  s.style.left=Math.random()*96+'vw';s.style.fontSize=(18+Math.random()*18)+'px';
+  s.style.left=Math.random()*96+'vw';s.style.fontSize=(16+Math.random()*16)+'px';
   s.style.animationDuration=(2.2+Math.random()*2)+'s';s.style.animationDelay=(Math.random()*.8)+'s';
   document.body.appendChild(s);setTimeout(()=>s.remove(),5400);
  }
@@ -605,19 +521,19 @@ function endGame(timeUp){
  isPlaying=false;tiltArmed=false;clearInterval(timerInterval);releaseWakeLock();
  $('game-screen').classList.add('hidden');
  $('result-screen').classList.remove('hidden');
- $('res-title').innerText=scoreCorrect>=10?'Arrasou! 🏆':scoreCorrect>0?'Fim de jogo!':'Tente de novo!';
- $('res-sub').innerText=scoreCorrect>=10?'Que rodada incrível!':scoreCorrect>0?'Que rodada divertida!':'Na próxima vai!';
+ $('res-title').innerText=scoreCorrect>=8?'CHAMPION OF ASHES 🏆':'YOU DIED';
+ $('res-sub').innerText=scoreCorrect>=8?'Your legend shall echo across realms!':'Darkness has claimed your soul.';
  countUp($('res-correct'),scoreCorrect);countUp($('res-skipped'),scoreSkipped);
  const box=$('word-history');box.innerHTML='';
  if(!wordHistoryList.length){
-  const p=document.createElement('p');p.style.cssText='text-align:center;font-size:.85rem;opacity:.6';
-  p.textContent='Nenhuma palavra jogada.';box.appendChild(p);
+  const p=document.createElement('p');p.style.cssText='text-align:center;font-size:.8rem;color:var(--muted)';
+  p.textContent='No relics found.';box.appendChild(p);
  }else{
   wordHistoryList.forEach((it,i)=>{
    const ok=it.status==='correct';
    const row=document.createElement('div');row.className='row';row.style.animationDelay=Math.min(i*40,800)+'ms';
    const w=document.createElement('span');w.textContent=it.word;
-   const c=document.createElement('span');c.className='chip '+(ok?'ok':'no');c.textContent=ok?'Acertou':'Pulou';
+   const c=document.createElement('span');c.className='chip '+(ok?'ok':'no');c.textContent=ok?'Conquered':'Dodged';
    row.append(w,c);box.appendChild(row);
   });
  }
@@ -629,12 +545,15 @@ function returnToMenu(){
  $('result-screen').classList.add('hidden');
  $('setup-screen').classList.remove('hidden');
  document.body.classList.remove('in-game');
- playSound('click');initThemes();
+ playSound('click');
+ initThemes();
 }
-window.onload=()=>{
- loadPrefs();refreshOpts();initThemes();setTime(gameTime);
- ['setup-screen','countdown-screen','result-screen'].forEach(id=>addBubbles($(id)));
-};
+window.addEventListener('DOMContentLoaded', ()=>{
+ loadPrefs();
+ refreshOpts();
+ initThemes();
+ setTime(gameTime);
+});
 </script>
 </body>
 </html>
