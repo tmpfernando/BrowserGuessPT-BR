@@ -14,42 +14,41 @@ html,body{margin:0;height:100%;overflow:hidden;font-family:'Fredoka',system-ui,s
 .hidden{display:none!important}
 button{font:inherit;cursor:pointer}
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;
- padding:max(8px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+ padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
 .bg-sun{background:linear-gradient(160deg,#ffe259 0%,#ffa751 45%,#ff6a88 100%)}
 .card{background:#fff;border-radius:16px;box-shadow:0 4px 0 rgba(59,31,94,.15)}
 .btn{border:0;border-radius:16px;color:#fff;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.22);transition:transform .08s,box-shadow .08s}
 .btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22)}
 .play{width:100%;padding:12px;font-size:1.15rem;background:linear-gradient(90deg,#ff4d8d,#ff7a45);display:flex;align-items:center;justify-content:center;gap:10px;animation:breathe 2s ease-in-out infinite}
 @keyframes breathe{50%{transform:scale(1.03)}}
-.logo{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#fff;font-size:1.5rem;color:var(--pink);box-shadow:0 3px 0 rgba(59,31,94,.2);animation:wig 3s ease-in-out infinite}
+.logo{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#fff;font-size:1.3rem;color:var(--pink);box-shadow:0 3px 0 rgba(59,31,94,.2);animation:wig 3s ease-in-out infinite}
 @keyframes wig{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg) scale(1.08)}}
-h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35);letter-spacing:.5px}
-.sub{margin:2px 0 0;font-size:.78rem;color:var(--ink);font-weight:500}
+h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35);letter-spacing:.5px}
+.sub{margin:2px 0 0;font-size:.75rem;color:var(--ink);font-weight:500}
 .lbl{margin:0 0 4px;font-size:.75rem;font-weight:700}
-#fs-btn{position:fixed;z-index:50;top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left));width:34px;height:34px;border-radius:50%;border:0;background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(59,31,94,.2)}
-.in-game #fs-btn{display:none}
+#fs-btn{position:fixed;z-index:60;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:36px;height:36px;border-radius:50%;border:0;background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(59,31,94,.2);display:grid;place-items:center;font-size:.9rem}
 .bub{position:absolute;bottom:-12%;z-index:0;pointer-events:none;opacity:.4;animation:rise linear infinite}
 @keyframes rise{to{transform:translateY(-120vh) rotate(40deg)}}
 
 /* Setup */
-.setup,.result{display:flex;flex-direction:column;flex:1;min-height:0;gap:8px;justify-content:space-between;position:relative;z-index:1}
+.setup,.result{display:flex;flex-direction:column;flex:1;min-height:0;gap:6px;justify-content:space-between;position:relative;z-index:1}
 .hero{text-align:center;padding-top:2px}
-.opts{display:flex;justify-content:center;gap:6px;margin-top:6px}
-.opt{border:2px solid rgba(59,31,94,.25);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:.7rem;font-weight:600;opacity:.65}
-.opt.on{background:#fff;border-color:var(--violet);opacity:1}
+.opts{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:5px}
+.opt{border:2px solid rgba(59,31,94,.25);background:rgba(255,255,255,.55);color:var(--ink);border-radius:999px;padding:3px 9px;font-size:.68rem;font-weight:600;opacity:.65;transition:all .15s}
+.opt.on{background:#fff;border-color:var(--violet);opacity:1;box-shadow:0 2px 0 rgba(122,77,255,.2)}
 .pick{flex:1;min-height:0;display:flex;flex-direction:column}
 .themes-wrapper{flex:1;min-height:0;overflow-y:auto;padding-right:2px}
-.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.tile{display:flex;align-items:center;gap:6px;padding:6px 8px;border:2px solid transparent;text-align:left;color:var(--ink);transition:transform .1s}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.tile{display:flex;align-items:center;gap:6px;padding:5px 7px;border:2px solid transparent;text-align:left;color:var(--ink);transition:transform .1s}
 .tile:active{transform:scale(.96)}
 .tile.sel{border-color:var(--pink);background:#fff4c2;box-shadow:0 3px 0 rgba(255,77,141,.3);animation:selpop .3s}
 @keyframes selpop{50%{transform:scale(1.07)}}
-.ico{flex:none;width:28px;height:28px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:.8rem}
-.tile b{display:block;font-size:.75rem;font-weight:600;line-height:1.1}
-.tile small{font-size:.62rem;opacity:.65}
+.ico{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:.75rem}
+.tile b{display:block;font-size:.72rem;font-weight:600;line-height:1.1}
+.tile small{font-size:.6rem;opacity:.65}
 .tile div:last-child{min-width:0}
-.times{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.time-btn{padding:7px 0;border:2px solid transparent;border-radius:12px;background:#fff;font-weight:700;font-size:.8rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
 .time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
 
 /* Contagem */
@@ -57,26 +56,26 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 #countdown-screen>*{position:relative;z-index:1}
 #countdown-number{font-size:min(34vw,34vh);font-weight:700;line-height:1;color:#fff;text-shadow:0 8px 0 rgba(59,31,94,.3);animation:pop .9s ease-out infinite}
 @keyframes pop{0%{transform:scale(.4) rotate(-8deg)}40%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
-.hint{margin-top:14px;padding:8px 16px;border-radius:999px;background:#fff;font-size:.85rem;font-weight:500;max-width:92%}
+.hint{margin-top:10px;padding:6px 14px;border-radius:999px;background:#fff;font-size:.8rem;font-weight:500;max-width:92%}
 
 /* Jogo */
-#game-screen{z-index:40;display:grid;gap:10px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
-.bar{grid-area:bar;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
+.bar{grid-area:bar;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-right:42px}
 .pill{background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:700;display:flex;align-items:center;gap:6px}
 .pill.urgent{background:#ff3b5c;color:#fff;animation:pulse .6s infinite}
 .pill.bump{animation:bump .35s}
 @keyframes pulse{50%{transform:scale(1.1)}}
 @keyframes bump{40%{transform:scale(1.35) rotate(-6deg)}}
-.x{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink)}
+.x{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink)}
 .wordbox{grid-area:word;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0;cursor:pointer}
-.tag{background:rgba(255,255,255,.9);color:var(--ink);padding:3px 14px;border-radius:999px;font-weight:700;font-size:.75rem;margin-bottom:10px}
+.tag{background:rgba(255,255,255,.9);color:var(--ink);padding:3px 14px;border-radius:999px;font-weight:700;font-size:.75rem;margin-bottom:8px}
 #word-display{margin:0;max-width:100%;font-size:clamp(2.2rem,11vw,4.2rem);line-height:1.1;font-weight:700;text-shadow:0 4px 0 rgba(59,31,94,.3);overflow-wrap:anywhere}
 #word-display.in-ok{animation:wOk .35s cubic-bezier(.3,1.6,.5,1)}
 #word-display.in-skip{animation:wSkip .3s ease-out}
 @keyframes wOk{0%{transform:translateY(-50px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
 @keyframes wSkip{0%{transform:translateY(50px) rotate(-4deg);opacity:0}100%{transform:none;opacity:1}}
-.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px;font-size:.85rem}
-.act i{font-size:1.4rem}
+.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px;font-size:.85rem}
+.act i{font-size:1.3rem}
 .skip{grid-area:skip;background:#ff7a45}.ok{grid-area:ok;background:#12b886}
 .l-only{display:none}
 #flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .15s}
@@ -90,41 +89,42 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 
 /* Resultado */
 .result{grid-template-rows:auto minmax(0,1fr) auto}
-.top{text-align:center;padding-top:4px}
+.top{text-align:center;padding-top:2px;padding-right:38px}
 .listbox{min-height:0;display:flex;flex-direction:column;flex:1}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.stat{padding:8px}.stat small{font-size:.7rem;font-weight:600;opacity:.7}
-.stat b{display:block;font-size:2.2rem;line-height:1.1}
-#word-history{flex:1;min-height:0;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;background:#f6f1ff;font-size:.85rem;font-weight:500;animation:rowin .3s both}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.stat{padding:6px}.stat small{font-size:.65rem;font-weight:600;opacity:.7}
+.stat b{display:block;font-size:1.9rem;line-height:1.1}
+#word-history{flex:1;min-height:0;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 8px;border-radius:10px;background:#f6f1ff;font-size:.8rem;font-weight:500;animation:rowin .3s both}
 @keyframes rowin{from{opacity:0;transform:translateX(-14px)}}
-.chip{flex:none;font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:999px;color:#fff}
+.chip{flex:none;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
 .chip.ok{background:#12b886}.chip.no{background:#ff7a45}
 .confetti{position:fixed;top:-6vh;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
 
 /* Celular deitado */
 @media (orientation:landscape) and (max-height:560px){
- .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:10px}
+ .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:8px}
  .hero{grid-area:hero;padding-top:0}.pick{grid-area:themes}.timebox{grid-area:time}.playbox{grid-area:play;align-self:end}
- .hero .logo{width:38px;height:38px;font-size:1.2rem}
- h1{font-size:1.3rem}.sub{display:none}
+ .hero .logo{width:34px;height:34px;font-size:1rem}
+ h1{font-size:1.2rem}.sub{display:none}
  .themes{grid-template-columns:repeat(2,1fr);gap:4px}
- .tile{padding:4px 6px}.ico{width:24px;height:24px;font-size:.7rem}
- .play{padding:8px;font-size:1rem}
+ .tile{padding:3px 5px}.ico{width:22px;height:22px;font-size:.65rem}
+ .play{padding:7px;font-size:.95rem}
  #game-screen{grid-template-columns:clamp(96px,17vw,150px) 1fr clamp(96px,17vw,150px);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"skip bar ok" "skip word ok"}
  #word-display{font-size:clamp(2rem,16vh,4.2rem)}
  .p-only{display:none}.l-only{display:inline}
- .result{display:grid;grid-template-columns:minmax(190px,36%) 1fr;grid-template-areas:"top list" "btn list";grid-template-rows:1fr auto;column-gap:14px}
+ .result{display:grid;grid-template-columns:minmax(190px,36%) 1fr;grid-template-areas:"top list" "btn list";grid-template-rows:1fr auto;column-gap:10px}
  .top{grid-area:top}.listbox{grid-area:list}.btnbox{grid-area:btn}
- .top .logo{width:38px;height:38px;font-size:1rem}
- .top h2{font-size:1.3rem!important}.top .sub{display:none}
- .stats{margin-top:6px}.stat b{font-size:1.5rem}
+ .top .logo{width:34px;height:34px;font-size:.9rem}
+ .top h2{font-size:1.1rem!important}.top .sub{display:none}
+ .stats{margin-top:4px}.stat b{font-size:1.3rem}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<!-- Botão de Tela Cheia Global -->
 <button id="fs-btn" onclick="toggleFullScreen()" aria-label="Tela cheia"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
 
 <!-- 1. MENU -->
@@ -136,7 +136,8 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
    <p class="sub">Celular na testa, amigos dando dicas!</p>
    <div class="opts">
     <button id="opt-sound" class="opt" onclick="toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Sons</button>
-    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Inclinar</button>
+    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Giroscópio</button>
+    <button id="opt-touch" class="opt" onclick="toggleOpt('touch')"><i class="fa-solid fa-hand-pointer"></i> Swipe/Toque</button>
    </div>
   </div>
   <div class="pick">
@@ -172,7 +173,7 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
   <div id="score-box" class="pill"><i class="fa-solid fa-star" style="color:#ffb400"></i><span id="live-score">0</span></div>
   <button class="x" onclick="endGame()" aria-label="Encerrar rodada"><i class="fa-solid fa-xmark"></i></button>
  </div>
- <div class="wordbox" onclick="handleCorrect()">
+ <div class="wordbox" onclick="handleCorrectClick()">
   <span id="current-theme-label" class="tag">Tema</span>
   <h2 id="word-display">...</h2>
  </div>
@@ -189,7 +190,7 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
  <div class="result">
   <div class="top">
    <div class="logo"><i class="fa-solid fa-trophy"></i></div>
-   <h2 id="res-title" style="margin:4px 0 0;font-size:1.6rem;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35)">Fim de jogo!</h2>
+   <h2 id="res-title" style="margin:2px 0 0;font-size:1.4rem;color:#fff;text-shadow:0 2px 0 rgba(59,31,94,.35)">Fim de jogo!</h2>
    <p class="sub" id="res-sub">Que rodada divertida!</p>
    <div class="stats">
     <div class="card stat"><small>Acertos</small><b id="res-correct" style="color:#12b886">0</b></div>
@@ -207,20 +208,30 @@ h1{margin:4px 0 0;font-size:1.6rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 <script>
 const $=id=>document.getElementById(id);
 
-let soundOn=true,tiltOn=true,tiltActive=false,tiltListening=false,tiltArmed=false;
+let soundOn=true,tiltOn=true,touchOn=true,tiltActive=false,tiltListening=false,tiltArmed=false;
 const tiltSupported='DeviceOrientationEvent' in window;
+
 function refreshOpts(){
  $('opt-sound').classList.toggle('on',soundOn);
  $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Sons`;
  $('opt-tilt').classList.toggle('on',tiltOn&&tiltSupported);
-}
-function toggleOpt(k){
- if(k==='sound')soundOn=!soundOn;else tiltOn=!tiltOn;
- try{localStorage.setItem('ggpt_sound',soundOn?'1':'0');localStorage.setItem('ggpt_tilt',tiltOn?'1':'0')}catch(e){}
- refreshOpts();playSound('click');
+ $('opt-touch').classList.toggle('on',touchOn);
 }
 
-// Inicialização e desbloqueio seguro do AudioContext para navegadores mobile (GitHub Pages)
+function toggleOpt(k){
+ if(k==='sound')soundOn=!soundOn;
+ else if(k==='tilt')tiltOn=!tiltOn;
+ else if(k==='touch')touchOn=!touchOn;
+ try{
+  localStorage.setItem('ggpt_sound',soundOn?'1':'0');
+  localStorage.setItem('ggpt_tilt',tiltOn?'1':'0');
+  localStorage.setItem('ggpt_touch',touchOn?'1':'0');
+ }catch(e){}
+ refreshOpts();
+ playSound('click');
+}
+
+// Inicialização e desbloqueio forçado do AudioContext (essencial para GitHub Pages)
 let audioCtx=null;
 function initAudio(){
  try{
@@ -282,13 +293,14 @@ function updateFsIcon(){
 }
 document.addEventListener('fullscreenchange',updateFsIcon);
 document.addEventListener('webkitfullscreenchange',updateFsIcon);
+
 let wakeLock=null;
 async function requestWakeLock(){try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}
 function releaseWakeLock(){try{if(wakeLock)wakeLock.release()}catch(e){}wakeLock=null}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&isPlaying)requestWakeLock()});
 
 async function enableTilt(){
- if(!tiltSupported)return false;
+ if(!tiltSupported||!tiltOn)return false;
  try{
   if(typeof DeviceOrientationEvent.requestPermission==='function'){
    const r=await DeviceOrientationEvent.requestPermission();
@@ -339,6 +351,7 @@ function loadPrefs(){try{
  if(t&&themes[t])selectedTheme=t;if([30,60,90,120].includes(s))gameTime=s;
  if(localStorage.getItem('ggpt_sound')==='0')soundOn=false;
  if(localStorage.getItem('ggpt_tilt')==='0')tiltOn=false;
+ if(localStorage.getItem('ggpt_touch')==='0')touchOn=false;
 }catch(e){}}
 function savePrefs(){try{localStorage.setItem('ggpt_theme',selectedTheme);localStorage.setItem('ggpt_time',String(gameTime))}catch(e){}}
 
@@ -375,20 +388,28 @@ function setTime(sec){
 function shuffleArray(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
 function setBg(el){const c=themes[selectedTheme].c;el.style.background=`linear-gradient(160deg,${c[0]},${c[1]})`}
 
-function startCountdown(){
+async function startCountdown(){
  if(isCounting||isPlaying)return;
  isCounting=true;initAudio();playSound('click');
  tiltActive=false;tiltArmed=false;
  const hint=$('hint');
- hint.innerHTML='<i class="fa-solid fa-hand-pointer"></i> Deslize ↓ ou → para acertar · ↑ ou ← para pular';
+ 
+ let infoText='';
+ if(tiltOn&&touchOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Giroscópio (inclinar) ou Swipe ↓/↑ ativos';
+ else if(tiltOn)infoText='<i class="fa-solid fa-mobile-screen"></i> Incline para baixo (acertar) ou cima (pular)';
+ else if(touchOn)infoText='<i class="fa-solid fa-hand-pointer"></i> Deslize ou toque para acertar / pular';
+ else infoText='<i class="fa-solid fa-triangle-exclamation"></i> Nenhum controle ativado! Use os botões da tela.';
+ 
+ hint.innerHTML=infoText;
+
  if(tiltOn){
-  enableTilt().then(ok=>{
-   tiltActive=ok;
-   hint.innerHTML=ok
-    ?'<i class="fa-solid fa-mobile-screen"></i> Incline para <b>baixo</b> = acertou · para <b>cima</b> = pulou<br><small>(deslizar e tocar também funcionam)</small>'
-    :'<i class="fa-solid fa-hand-pointer"></i> Sensor indisponível. Deslize ↓ → acertar · ↑ ← pular';
-  });
+  const ok=await enableTilt();
+  tiltActive=ok;
+  if(!ok&&tiltOn){
+   hint.innerHTML+='<br><small style="color:#d9534f">Giroscópio negado/indisponível. Usando apenas botões/toque.</small>';
+  }
  }
+
  currentWords=shuffleArray(themes[selectedTheme].words);
  currentIndex=0;scoreCorrect=0;scoreSkipped=0;streak=0;wordHistoryList=[];lastShownWord=null;
  document.body.classList.add('in-game');
@@ -464,6 +485,9 @@ function handleCorrect(){
  else{playSound('correct');feedback('✔ Acertou!','#b9f6ca');burst(['⭐','✨','🎉'])}
  currentIndex++;showNextWord('ok');
 }
+function handleCorrectClick(){
+ if(touchOn) handleCorrect();
+}
 function handleSkip(){
  if(!canAct())return;
  playSound('skip');scoreSkipped++;streak=0;
@@ -474,9 +498,14 @@ function handleSkip(){
 }
 
 let tY=0,tX=0;
-window.addEventListener('touchstart',e=>{if(!isPlaying)return;tY=e.changedTouches[0].screenY;tX=e.changedTouches[0].screenX},{passive:true});
+window.addEventListener('touchstart',e=>{
+ if(!isPlaying||!touchOn)return;
+ tY=e.changedTouches[0].screenY;
+ tX=e.changedTouches[0].screenX;
+},{passive:true});
+
 window.addEventListener('touchend',e=>{
- if(!isPlaying)return;
+ if(!isPlaying||!touchOn)return;
  const dy=e.changedTouches[0].screenY-tY,dx=e.changedTouches[0].screenX-tX;
  if(Math.max(Math.abs(dx),Math.abs(dy))<40)return;
  const good=Math.abs(dy)>=Math.abs(dx)?dy>0:dx>0;
