@@ -51,7 +51,7 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
 .time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
 
-/* Contagem Regressiva Corrigida e Centralizada */
+/* Contagem Regressiva Corrigida e Totalmente Centralizada */
 #countdown-screen{
  position:fixed;
  inset:0;
@@ -61,20 +61,21 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
  align-items:center;
  justify-content:center;
  text-align:center;
- padding:20px;
+ padding:15px;
+ overflow:hidden;
 }
 #countdown-screen>*{position:relative;z-index:1}
 #countdown-number{
- font-size:min(32vw, 32vh);
+ font-size:clamp(5rem, 25vw, 12rem);
  font-weight:700;
  line-height:1;
  color:#fff;
- text-shadow:0 8px 0 rgba(59,31,94,.3);
+ text-shadow:0 6px 0 rgba(59,31,94,.3);
  animation:pop .9s ease-out infinite;
- margin: 10px 0;
+ margin: 5px 0;
 }
 @keyframes pop{0%{transform:scale(.4) rotate(-8deg)}40%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
-.hint{margin-top:14px;padding:8px 16px;border-radius:999px;background:#fff;font-size:.8rem;font-weight:500;max-width:92%;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.hint{margin-top:10px;padding:6px 12px;border-radius:999px;background:#fff;font-size:.75rem;font-weight:500;max-width:92%;box-shadow:0 4px 10px rgba(0,0,0,.15)}
 
 /* Jogo */
 #game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
@@ -249,7 +250,6 @@ function toggleOpt(k){
  playSound('click');
 }
 
-// Inicialização e desbloqueio forçado de áudio para navegadores móveis (Safari/Chrome Mobile)
 let audioCtx=null;
 function initAudio(){
  try{
@@ -260,7 +260,6 @@ function initAudio(){
   if(audioCtx.state==='suspended'){
    audioCtx.resume();
   }
-  // Cria um oscilador mudo instantâneo para destravar a permissão do browser
   const dummy=audioCtx.createOscillator();
   const gain=audioCtx.createGain();
   gain.gain.value=0.001;
@@ -418,7 +417,6 @@ async function startCountdown(){
  if(isCounting||isPlaying)return;
  isCounting=true;
  
- // Força o desbloqueio do áudio na ação do usuário (essencial para celular/GitHub Pages)
  initAudio();
  playSound('click');
 
