@@ -53,62 +53,17 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
 .time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
 
-/* ==========================================
-   TELA DE CONTAGEM REGRESSIVA (REVISADA)
-   ========================================== */
+/* Contagem Regressiva */
 #countdown-screen {
- position: fixed;
- inset: 0;
- z-index: 50;
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- text-align: center;
- padding: 12px;
- overflow: hidden;
+ position: fixed; inset: 0; z-index: 50;
+ display: flex; flex-direction: column; align-items: center; justify-content: center;
+ text-align: center; padding: 12px; overflow: hidden;
 }
-.countdown-content {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- width: 100%;
- max-width: 400px;
- margin: auto;
-}
-.countdown-title {
- font-weight: 700;
- font-size: clamp(1rem, 4vw, 1.3rem);
- color: var(--ink);
- margin: 0 0 10px 0;
- text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-#countdown-number {
- font-size: clamp(6rem, 30vh, 14rem);
- font-weight: 700;
- line-height: 1;
- color: #fff;
- text-shadow: 0 8px 0 rgba(59,31,94,.3);
- animation: pop .9s ease-out infinite;
- margin: 0;
-}
-@keyframes pop {
- 0% { transform: scale(.4) rotate(-8deg); }
- 40% { transform: scale(1.15) rotate(3deg); }
- 100% { transform: scale(1) rotate(0); }
-}
-.hint {
- margin-top: 15px;
- padding: 8px 16px;
- border-radius: 999px;
- background: #fff;
- font-size: clamp(0.7rem, 2.5vw, 0.85rem);
- font-weight: 500;
- max-width: 95%;
- box-shadow: 0 4px 10px rgba(0,0,0,.15);
- color: var(--ink);
-}
+.countdown-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 400px; margin: auto; }
+.countdown-title { font-weight: 700; font-size: clamp(1rem, 4vw, 1.3rem); color: var(--ink); margin: 0 0 10px 0; text-shadow: 0 1px 0 rgba(255,255,255,.5); }
+#countdown-number { font-size: clamp(6rem, 30vh, 14rem); font-weight: 700; line-height: 1; color: #fff; text-shadow: 0 8px 0 rgba(59,31,94,.3); animation: pop .9s ease-out infinite; margin: 0; }
+@keyframes pop { 0% { transform: scale(.4) rotate(-8deg); } 40% { transform: scale(1.15) rotate(3deg); } 100% { transform: scale(1) rotate(0); } }
+.hint { margin-top: 15px; padding: 8px 16px; border-radius: 999px; background: #fff; font-size: clamp(0.7rem, 2.5vw, 0.85rem); font-weight: 500; max-width: 95%; box-shadow: 0 4px 10px rgba(0,0,0,.15); color: var(--ink); }
 
 /* Jogo */
 #game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
@@ -154,7 +109,6 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .confetti{position:fixed;top:-6vh;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
 
-/* Ajustes Específicos para Paisagem / Celular Deitado */
 @media (orientation:landscape) and (max-height:560px){
  .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:8px}
  .hero{grid-area:hero;padding-top:0}.pick{grid-area:themes}.timebox{grid-area:time}.playbox{grid-area:play;align-self:end}
@@ -171,23 +125,14 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
  .top .logo{width:34px;height:34px;font-size:.9rem}
  .top h2{font-size:1.1rem!important}.top .sub{display:none}
  .stats{margin-top:4px}.stat b{font-size:1.3rem}
- 
- /* Ajuste paisagem na contagem regressiva */
- #countdown-number {
-  font-size: clamp(4rem, 24vh, 9rem);
- }
- .hint {
-  font-size: 0.7rem;
-  padding: 4px 10px;
-  margin-top: 6px;
- }
+ #countdown-number { font-size: clamp(4rem, 24vh, 9rem); }
+ .hint { font-size: 0.7rem; padding: 4px 10px; margin-top: 6px; }
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
-<!-- Botão de Tela Cheia Global -->
-<button id="fs-btn" onclick="toggleFullScreen()" aria-label="Tela cheia"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
+<body onclick="tryStartBGM()">
+<button id="fs-btn" onclick="event.stopPropagation();toggleFullScreen()" aria-label="Tela cheia"><i id="fs-icon" class="fa-solid fa-expand"></i></button>
 
 <!-- 1. MENU -->
 <div id="setup-screen" class="screen bg-sun">
@@ -197,9 +142,10 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
    <h1>Browser Guess PT-BR</h1>
    <p class="sub">Celular na testa, amigos dando dicas!</p>
    <div class="opts">
-    <button id="opt-sound" class="opt" onclick="toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Sons</button>
-    <button id="opt-tilt" class="opt" onclick="toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Giroscópio</button>
-    <button id="opt-touch" class="opt" onclick="toggleOpt('touch')"><i class="fa-solid fa-hand-pointer"></i> Swipe/Toque</button>
+    <button id="opt-sound" class="opt" onclick="event.stopPropagation();toggleOpt('sound')"><i class="fa-solid fa-volume-high"></i> Efeitos</button>
+    <button id="opt-music" class="opt" onclick="event.stopPropagation();toggleOpt('music')"><i class="fa-solid fa-music"></i> Música</button>
+    <button id="opt-tilt" class="opt" onclick="event.stopPropagation();toggleOpt('tilt')"><i class="fa-solid fa-mobile-screen"></i> Giroscópio</button>
+    <button id="opt-touch" class="opt" onclick="event.stopPropagation();toggleOpt('touch')"><i class="fa-solid fa-hand-pointer"></i> Swipe/Toque</button>
    </div>
   </div>
   <div class="pick">
@@ -209,17 +155,17 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
   <div class="timebox">
    <p class="lbl"><i class="fa-solid fa-stopwatch"></i> Tempo de jogo</p>
    <div class="times">
-    <button class="time-btn" data-time="30" onclick="setTime(30)">30s</button>
-    <button class="time-btn" data-time="60" onclick="setTime(60)">1 min</button>
-    <button class="time-btn" data-time="90" onclick="setTime(90)">1m30</button>
-    <button class="time-btn" data-time="120" onclick="setTime(120)">2 min</button>
+    <button class="time-btn" data-time="30" onclick="event.stopPropagation();setTime(30)">30s</button>
+    <button class="time-btn" data-time="60" onclick="event.stopPropagation();setTime(60)">1 min</button>
+    <button class="time-btn" data-time="90" onclick="event.stopPropagation();setTime(90)">1m30</button>
+    <button class="time-btn" data-time="120" onclick="event.stopPropagation();setTime(120)">2 min</button>
    </div>
   </div>
-  <div class="playbox"><button class="btn play" onclick="startCountdown()"><i class="fa-solid fa-play"></i> Jogar agora</button></div>
+  <div class="playbox"><button class="btn play" onclick="event.stopPropagation();startCountdown()"><i class="fa-solid fa-play"></i> Jogar agora</button></div>
  </div>
 </div>
 
-<!-- 2. CONTAGEM COM DIV WRAPPER SEGURA -->
+<!-- 2. CONTAGEM -->
 <div id="countdown-screen" class="screen bg-sun hidden">
  <div class="countdown-content">
   <p class="countdown-title">Prepare o celular na testa!</p>
@@ -272,22 +218,35 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 <script>
 const $=id=>document.getElementById(id);
 
-let soundOn=true,tiltOn=true,touchOn=true,tiltActive=false,tiltListening=false,tiltArmed=false;
+let soundOn=true,musicOn=true,tiltOn=true,touchOn=true,tiltActive=false,tiltListening=false,tiltArmed=false;
 const tiltSupported='DeviceOrientationEvent' in window;
 
 function refreshOpts(){
  $('opt-sound').classList.toggle('on',soundOn);
- $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Sons`;
+ $('opt-sound').innerHTML=`<i class="fa-solid ${soundOn?'fa-volume-high':'fa-volume-xmark'}"></i> Efeitos`;
+ 
+ $('opt-music').classList.toggle('on',musicOn);
+ $('opt-music').innerHTML=`<i class="fa-solid ${musicOn?'fa-music':'fa-volume-xmark'}"></i> Música`;
+
  $('opt-tilt').classList.toggle('on',tiltOn&&tiltSupported);
  $('opt-touch').classList.toggle('on',touchOn);
 }
 
 function toggleOpt(k){
- if(k==='sound')soundOn=!soundOn;
- else if(k==='tilt')tiltOn=!tiltOn;
- else if(k==='touch')touchOn=!touchOn;
+ if(k==='sound'){
+  soundOn=!soundOn;
+ } else if(k==='music'){
+  musicOn=!musicOn;
+  if(!musicOn) stopBGM();
+  else tryStartBGM();
+ } else if(k==='tilt'){
+  tiltOn=!tiltOn;
+ } else if(k==='touch'){
+  touchOn=!touchOn;
+ }
  try{
   localStorage.setItem('ggpt_sound',soundOn?'1':'0');
+  localStorage.setItem('ggpt_music',musicOn?'1':'0');
   localStorage.setItem('ggpt_tilt',tiltOn?'1':'0');
   localStorage.setItem('ggpt_touch',touchOn?'1':'0');
  }catch(e){}
@@ -305,14 +264,122 @@ function initAudio(){
   if(audioCtx.state==='suspended'){
    audioCtx.resume();
   }
-  const dummy=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-  gain.gain.value=0.001;
-  dummy.connect(gain);
-  gain.connect(audioCtx.destination);
-  dummy.start();
-  dummy.stop(audioCtx.currentTime+0.01);
  }catch(e){}
+}
+
+/* ==========================================
+   TRILHAS CLÁSSICAS REAIS E SUAVES
+   ========================================== */
+let bgmTimer=null;
+let currentBgmTrack=0;
+
+const NOTES = {
+ C4:261.63, CS4:277.18, D4:293.66, DS4:311.13, E4:329.63, F4:349.23, FS4:369.99,
+ G4:392.00, GS4:415.30, A4:440.00, AS4:466.16, B4:493.88,
+ C5:523.25, CS5:554.37, D5:587.33, DS5:622.25, E5:659.25, F5:698.46, G5:783.99, REST:0
+};
+
+const CLASSIC_TRACKS = [
+ // 0: Menu - Erik Satie: Gymnopédie No. 1 (Suave e minimalista)
+ {
+  tempo: 680,
+  notes: [
+   [NOTES.F4, 1.2], [NOTES.A4, 1.2], [NOTES.C5, 1.2], [NOTES.E5, 1.8],
+   [NOTES.D5, 1.2], [NOTES.A4, 1.2], [NOTES.F4, 1.2], [NOTES.REST, 1.0],
+   [NOTES.E4, 1.2], [NOTES.G4, 1.2], [NOTES.B4, 1.2], [NOTES.D5, 1.8],
+   [NOTES.C5, 1.2], [NOTES.G4, 1.2], [NOTES.E4, 1.2], [NOTES.REST, 1.0]
+  ]
+ },
+ // 1: Jogo A - Vivaldi: As Quatro Estações (O Inverno)
+ {
+  tempo: 340,
+  notes: [
+   [NOTES.F4, 0.4], [NOTES.F4, 0.4], [NOTES.F4, 0.4], [NOTES.F4, 0.4],
+   [NOTES.E4, 0.4], [NOTES.E4, 0.4], [NOTES.E4, 0.4], [NOTES.E4, 0.4],
+   [NOTES.D4, 0.4], [NOTES.D4, 0.4], [NOTES.E4, 0.4], [NOTES.F4, 0.4],
+   [NOTES.G4, 0.8], [NOTES.C5, 0.8], [NOTES.REST, 0.4]
+  ]
+ },
+ // 2: Jogo B - Beethoven: Moonlight Sonata (Claro do Luar)
+ {
+  tempo: 520,
+  notes: [
+   [NOTES.CS4, 0.8], [NOTES.GS4, 0.8], [NOTES.C5, 0.8], [NOTES.CS4, 0.8],
+   [NOTES.GS4, 0.8], [NOTES.C5, 0.8], [NOTES.B4, 0.8], [NOTES.GS4, 0.8],
+   [NOTES.A4, 0.8], [NOTES.E4, 0.8], [NOTES.A4, 0.8], [NOTES.REST, 0.6]
+  ]
+ },
+ // 3: Jogo C (NOVO) - Chopin: Valsa do Adeus (Op. 69, No. 1)
+ {
+  tempo: 450,
+  notes: [
+   [NOTES.E5, 0.8], [NOTES.DS5, 0.4], [NOTES.E5, 0.8], [NOTES.B4, 0.8],
+   [NOTES.C5, 0.8], [NOTES.A4, 1.2], [NOTES.C4, 0.4], [NOTES.E4, 0.4],
+   [NOTES.A4, 0.8], [NOTES.GS4, 0.4], [NOTES.A4, 0.8], [NOTES.B4, 0.8],
+   [NOTES.C5, 0.8], [NOTES.B4, 1.2], [NOTES.REST, 0.6]
+  ]
+ },
+ // 4: Jogo D (NOVO) - Beethoven: Für Elise (Para Elisa)
+ {
+  tempo: 360,
+  notes: [
+   [NOTES.E5, 0.4], [NOTES.DS5, 0.4], [NOTES.E5, 0.4], [NOTES.DS5, 0.4],
+   [NOTES.E5, 0.4], [NOTES.B4, 0.4], [NOTES.D5, 0.4], [NOTES.C5, 0.4],
+   [NOTES.A4, 0.8], [NOTES.C4, 0.4], [NOTES.E4, 0.4], [NOTES.A4, 0.4],
+   [NOTES.B4, 0.8], [NOTES.E4, 0.4], [NOTES.GS4, 0.4], [NOTES.B4, 0.4],
+   [NOTES.C5, 0.8], [NOTES.REST, 0.4]
+  ]
+ }
+];
+
+function playBgmNote(freq, duration, volume=0.012){
+ if(!musicOn||!audioCtx)return;
+ try{
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  if(freq===0)return;
+  const t0=audioCtx.currentTime;
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type='sine'; // Onda senoidal pura para suavidade extrema
+  o.frequency.setValueAtTime(freq,t0);
+  
+  // Envelope delicado para evitar estalos e manter o som super aveludado
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.linearRampToValueAtTime(volume, t0 + 0.15);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+
+  o.connect(g);g.connect(audioCtx.destination);
+  o.start(t0);o.stop(t0+duration+.05);
+ }catch(e){}
+}
+
+function startBGM(trackIndex=0){
+ stopBGM();
+ if(!musicOn)return;
+ initAudio();
+ currentBgmTrack=trackIndex;
+ let noteIndex=0;
+ const track=CLASSIC_TRACKS[currentBgmTrack];
+
+ bgmTimer=setInterval(()=>{
+  if(!musicOn||!isPlayingMenuOrGame())return;
+  const currentNote=track.notes[noteIndex];
+  playBgmNote(currentNote[0], currentNote[1]*0.9, 0.012); // Volume bem sutil
+  noteIndex=(noteIndex+1)%track.notes.length;
+ },track.tempo);
+}
+
+function stopBGM(){
+ if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
+}
+
+function isPlayingMenuOrGame(){
+ return !$('setup-screen').classList.contains('hidden') || isPlaying;
+}
+
+function tryStartBGM(){
+ if(musicOn && !bgmTimer && $('setup-screen').classList.contains('hidden')==false){
+  startBGM(0);
+ }
 }
 
 const SOUNDS={
@@ -420,6 +487,7 @@ function loadPrefs(){try{
  const t=localStorage.getItem('ggpt_theme'),s=parseInt(localStorage.getItem('ggpt_time'),10);
  if(t&&themes[t])selectedTheme=t;if([30,60,90,120].includes(s))gameTime=s;
  if(localStorage.getItem('ggpt_sound')==='0')soundOn=false;
+ if(localStorage.getItem('ggpt_music')==='0')musicOn=false;
  if(localStorage.getItem('ggpt_tilt')==='0')tiltOn=false;
  if(localStorage.getItem('ggpt_touch')==='0')touchOn=false;
 }catch(e){}}
@@ -463,6 +531,7 @@ async function startCountdown(){
  isCounting=true;
  
  initAudio();
+ stopBGM();
  playSound('click');
 
  tiltActive=false;tiltArmed=false;
@@ -507,6 +576,11 @@ function startGame(){
  $('live-score').innerText='0';$('timer-box').classList.remove('urgent');
  timeLeft=gameTime;$('timer-display').innerText=timeLeft;
  showNextWord('ok');
+
+ // Sorteia aleatoriamente entre as faixas de jogo (1 a 4)
+ const randomGameTrack = Math.floor(Math.random() * 4) + 1;
+ startBGM(randomGameTrack);
+
  endTime=Date.now()+gameTime*1000;
  timerInterval=setInterval(()=>{
   const r=Math.max(0,Math.ceil((endTime-Date.now())/1000));
@@ -603,6 +677,7 @@ function countUp(el,to){
 function endGame(timeUp){
  if(!isPlaying)return;
  isPlaying=false;tiltArmed=false;clearInterval(timerInterval);releaseWakeLock();
+ stopBGM();
  $('game-screen').classList.add('hidden');
  $('result-screen').classList.remove('hidden');
  $('res-title').innerText=scoreCorrect>=10?'Arrasou! 🏆':scoreCorrect>0?'Fim de jogo!':'Tente de novo!';
@@ -630,6 +705,7 @@ function returnToMenu(){
  $('setup-screen').classList.remove('hidden');
  document.body.classList.remove('in-game');
  playSound('click');initThemes();
+ startBGM(0);
 }
 window.onload=()=>{
  loadPrefs();refreshOpts();initThemes();setTime(gameTime);
