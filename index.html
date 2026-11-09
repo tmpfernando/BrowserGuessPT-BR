@@ -13,8 +13,10 @@
 html,body{margin:0;height:100%;overflow:hidden;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:#ffa751;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .hidden{display:none!important}
 button{font:inherit;cursor:pointer}
+
+/* Telas Gerais */
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;
- padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+ padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
 .bg-sun{background:linear-gradient(160deg,#ffe259 0%,#ffa751 45%,#ff6a88 100%)}
 .card{background:#fff;border-radius:16px;box-shadow:0 4px 0 rgba(59,31,94,.15)}
 .btn{border:0;border-radius:16px;color:#fff;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.22);transition:transform .08s,box-shadow .08s}
@@ -51,31 +53,62 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
 .time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
 
-/* Contagem Regressiva Corrigida e Totalmente Centralizada */
-#countdown-screen{
- position:fixed;
- inset:0;
- z-index:50;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- text-align:center;
- padding:15px;
- overflow:hidden;
+/* ==========================================
+   TELA DE CONTAGEM REGRESSIVA (REVISADA)
+   ========================================== */
+#countdown-screen {
+ position: fixed;
+ inset: 0;
+ z-index: 50;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ padding: 12px;
+ overflow: hidden;
 }
-#countdown-screen>*{position:relative;z-index:1}
-#countdown-number{
- font-size:clamp(5rem, 25vw, 12rem);
- font-weight:700;
- line-height:1;
- color:#fff;
- text-shadow:0 6px 0 rgba(59,31,94,.3);
- animation:pop .9s ease-out infinite;
- margin: 5px 0;
+.countdown-content {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ width: 100%;
+ max-width: 400px;
+ margin: auto;
 }
-@keyframes pop{0%{transform:scale(.4) rotate(-8deg)}40%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
-.hint{margin-top:10px;padding:6px 12px;border-radius:999px;background:#fff;font-size:.75rem;font-weight:500;max-width:92%;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.countdown-title {
+ font-weight: 700;
+ font-size: clamp(1rem, 4vw, 1.3rem);
+ color: var(--ink);
+ margin: 0 0 10px 0;
+ text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+#countdown-number {
+ font-size: clamp(6rem, 30vh, 14rem);
+ font-weight: 700;
+ line-height: 1;
+ color: #fff;
+ text-shadow: 0 8px 0 rgba(59,31,94,.3);
+ animation: pop .9s ease-out infinite;
+ margin: 0;
+}
+@keyframes pop {
+ 0% { transform: scale(.4) rotate(-8deg); }
+ 40% { transform: scale(1.15) rotate(3deg); }
+ 100% { transform: scale(1) rotate(0); }
+}
+.hint {
+ margin-top: 15px;
+ padding: 8px 16px;
+ border-radius: 999px;
+ background: #fff;
+ font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+ font-weight: 500;
+ max-width: 95%;
+ box-shadow: 0 4px 10px rgba(0,0,0,.15);
+ color: var(--ink);
+}
 
 /* Jogo */
 #game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
@@ -121,7 +154,7 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .confetti{position:fixed;top:-6vh;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
 
-/* Celular deitado */
+/* Ajustes Específicos para Paisagem / Celular Deitado */
 @media (orientation:landscape) and (max-height:560px){
  .setup{display:grid;grid-template-columns:minmax(180px,32%) 1fr;grid-template-areas:"hero themes" "time themes" "play themes";grid-template-rows:auto auto 1fr;column-gap:8px}
  .hero{grid-area:hero;padding-top:0}.pick{grid-area:themes}.timebox{grid-area:time}.playbox{grid-area:play;align-self:end}
@@ -138,6 +171,16 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
  .top .logo{width:34px;height:34px;font-size:.9rem}
  .top h2{font-size:1.1rem!important}.top .sub{display:none}
  .stats{margin-top:4px}.stat b{font-size:1.3rem}
+ 
+ /* Ajuste paisagem na contagem regressiva */
+ #countdown-number {
+  font-size: clamp(4rem, 24vh, 9rem);
+ }
+ .hint {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  margin-top: 6px;
+ }
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -176,11 +219,13 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
  </div>
 </div>
 
-<!-- 2. CONTAGEM -->
+<!-- 2. CONTAGEM COM DIV WRAPPER SEGURA -->
 <div id="countdown-screen" class="screen bg-sun hidden">
- <p style="font-weight:700;margin:0 0 4px;font-size:1.1rem;">Prepare o celular na testa!</p>
- <div id="countdown-number">3</div>
- <div class="hint" id="hint"></div>
+ <div class="countdown-content">
+  <p class="countdown-title">Prepare o celular na testa!</p>
+  <div id="countdown-number">3</div>
+  <div class="hint" id="hint"></div>
+ </div>
 </div>
 
 <!-- 3. JOGO -->
