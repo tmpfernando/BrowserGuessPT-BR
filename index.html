@@ -51,12 +51,30 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 .time-btn{padding:6px 0;border:2px solid transparent;border-radius:10px;background:#fff;font-weight:700;font-size:.75rem;color:var(--ink);box-shadow:0 2px 0 rgba(59,31,94,.15);transition:all .1s}
 .time-btn.sel{background:var(--violet);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
 
-/* Contagem */
-#countdown-screen{align-items:center;justify-content:center;text-align:center;z-index:40}
+/* Contagem Regressiva Corrigida e Centralizada */
+#countdown-screen{
+ position:fixed;
+ inset:0;
+ z-index:50;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:20px;
+}
 #countdown-screen>*{position:relative;z-index:1}
-#countdown-number{font-size:min(34vw,34vh);font-weight:700;line-height:1;color:#fff;text-shadow:0 8px 0 rgba(59,31,94,.3);animation:pop .9s ease-out infinite}
+#countdown-number{
+ font-size:min(32vw, 32vh);
+ font-weight:700;
+ line-height:1;
+ color:#fff;
+ text-shadow:0 8px 0 rgba(59,31,94,.3);
+ animation:pop .9s ease-out infinite;
+ margin: 10px 0;
+}
 @keyframes pop{0%{transform:scale(.4) rotate(-8deg)}40%{transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
-.hint{margin-top:10px;padding:6px 14px;border-radius:999px;background:#fff;font-size:.8rem;font-weight:500;max-width:92%}
+.hint{margin-top:14px;padding:8px 16px;border-radius:999px;background:#fff;font-size:.8rem;font-weight:500;max-width:92%;box-shadow:0 4px 10px rgba(0,0,0,.15)}
 
 /* Jogo */
 #game-screen{z-index:40;display:grid;gap:8px;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "word word" "skip ok";color:#fff}
@@ -159,7 +177,7 @@ h1{margin:2px 0 0;font-size:1.5rem;line-height:1;color:#fff;text-shadow:0 2px 0 
 
 <!-- 2. CONTAGEM -->
 <div id="countdown-screen" class="screen bg-sun hidden">
- <p style="font-weight:700;margin:0 0 4px">Prepare o celular na testa!</p>
+ <p style="font-weight:700;margin:0 0 4px;font-size:1.1rem;">Prepare o celular na testa!</p>
  <div id="countdown-number">3</div>
  <div class="hint" id="hint"></div>
 </div>
@@ -231,7 +249,7 @@ function toggleOpt(k){
  playSound('click');
 }
 
-// Inicialização e desbloqueio forçado do AudioContext (essencial para GitHub Pages)
+// Inicialização e desbloqueio forçado de áudio para navegadores móveis (Safari/Chrome Mobile)
 let audioCtx=null;
 function initAudio(){
  try{
@@ -242,6 +260,14 @@ function initAudio(){
   if(audioCtx.state==='suspended'){
    audioCtx.resume();
   }
+  // Cria um oscilador mudo instantâneo para destravar a permissão do browser
+  const dummy=audioCtx.createOscillator();
+  const gain=audioCtx.createGain();
+  gain.gain.value=0.001;
+  dummy.connect(gain);
+  gain.connect(audioCtx.destination);
+  dummy.start();
+  dummy.stop(audioCtx.currentTime+0.01);
  }catch(e){}
 }
 
@@ -390,7 +416,12 @@ function setBg(el){const c=themes[selectedTheme].c;el.style.background=`linear-g
 
 async function startCountdown(){
  if(isCounting||isPlaying)return;
- isCounting=true;initAudio();playSound('click');
+ isCounting=true;
+ 
+ // Força o desbloqueio do áudio na ação do usuário (essencial para celular/GitHub Pages)
+ initAudio();
+ playSound('click');
+
  tiltActive=false;tiltArmed=false;
  const hint=$('hint');
  
